@@ -2,14 +2,30 @@ pipeline {
     agent any
 
     environment {
-        // Define any environment variables here
-        PYTHON_SCRIPT = '--version'  // Replace with the path to your Python script
+        PYTHON_SCRIPT = '--version'
+        ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
+        ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
     }
 
     stages {
-        stage('Prepare') {
+        stage('Boostrap') {
             steps {
-                echo "Hello World"
+                script {
+                    dir('one-press-functions') {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: '*/main']],
+                            userRemoteConfigs: [[url: env.ONE_PRESS_FUNCTIONS_REPO_URL]]
+                        ])
+                    }
+                    dir('one-press-resources') {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: '*/main']],
+                            userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
+                        ])
+                    }
+                }
             }
         }
 
@@ -23,10 +39,10 @@ pipeline {
         //     }
         // }
 
-        stage('Run Python Script') {
+        stage('Build') {
             steps {
-                // Run the Python script
-                sh "python3 ${env.PYTHON_SCRIPT}"
+                // // Run the Python script
+                // sh "python3 ${env.PYTHON_SCRIPT}"
             }
         }
     }
