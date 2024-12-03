@@ -36,7 +36,7 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-                sh 'touch "build/a.txt"'
+                sh 'touch "a.txt"'
             }
         }
     }
@@ -44,7 +44,7 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished.'
-            archiveArtifacts artifacts: 'build/a.txt', fingerprint: true
+            archiveArtifacts artifacts: 'a.txt', fingerprint: true
         }
     }
 }

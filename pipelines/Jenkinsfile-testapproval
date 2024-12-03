@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo "Hello World"'
+                sh '''
+                    echo "Multiline shell steps work too"
+                    ls -lah
+                '''
+                sh 'touch "a.txt"'
+            }
+        }
+
+        stage('Approval') {
+            steps {
+                script {
+                    input message: 'Do you want to proceed to the Deploy stage?', ok: 'Yes, proceed'
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'echo "Deploying application..."'
+                // Add your deployment steps here
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+            archiveArtifacts artifacts: 'a.txt', fingerprint: true
+        }
+    }
+}
