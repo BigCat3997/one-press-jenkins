@@ -42,8 +42,9 @@ pipeline {
 
     post {
         always {
-            // Clean up actions, if any
             echo 'Pipeline finished.'
+            touch 'build/a.txt'
+            archiveArtifacts artifacts: 'build/a.txt', fingerprint: true
         }
     }
 }
