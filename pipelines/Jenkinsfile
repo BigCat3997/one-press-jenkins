@@ -8,26 +8,26 @@ pipeline {
     }
 
     stages {
-        // stage('Boostrap') {
-        //     steps {
-        //         script {
-        //             dir('one-press-functions') {
-        //                 checkout([
-        //                     $class: 'GitSCM',
-        //                     branches: [[name: '*/main']],
-        //                     userRemoteConfigs: [[url: env.ONE_PRESS_FUNCTIONS_REPO_URL]]
-        //                 ])
-        //             }
-        //             dir('one-press-resources') {
-        //                 checkout([
-        //                     $class: 'GitSCM',
-        //                     branches: [[name: '*/main']],
-        //                     userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
-        //                 ])
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Bootstrap') {
+            steps {
+                script {
+                    dir('one-press-functions') {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: '*/main']],
+                            userRemoteConfigs: [[url: env.ONE_PRESS_FUNCTIONS_REPO_URL]]
+                        ])
+                    }
+                    dir('one-press-resources') {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: '*/main']],
+                            userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
+                        ])
+                    }
+                }
+            }
+        }
 
         stage('Build') {
             steps {
