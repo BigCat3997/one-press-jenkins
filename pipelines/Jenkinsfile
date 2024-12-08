@@ -5,6 +5,7 @@ pipeline {
         PYTHON_SCRIPT = '--version'
         ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
         ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
+        MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
     }
 
     stages {
@@ -25,8 +26,16 @@ pipeline {
                             userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
                         ])
                     }
+                    dir('maven-simple-api') {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: '*/main']],
+                            userRemoteConfigs: [[url: env.MAVEN_SIMPLE_API_REPO_URL]]
+                        ])
+                    }
                 }
                 sh '''
+                    pwd
                     ls -lah
                 '''
             }
