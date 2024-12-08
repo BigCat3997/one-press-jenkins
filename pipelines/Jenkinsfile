@@ -26,17 +26,23 @@ pipeline {
                         ])
                     }
                 }
+                sh '''
+                    ls -lah
+                '''
             }
         }
 
         stage('Build') {
             steps {
+                sh '''
+                    ls -lah
+                '''
                 sh 'echo "Hello World"'
                 sh '''
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-                sh 'touch "a.txt"'
+                // sh 'touch "a.txt"'
             }
         }
     }
