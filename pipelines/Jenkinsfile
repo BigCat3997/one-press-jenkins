@@ -53,6 +53,7 @@ pipeline {
                     source activate one-press-functions
                     python --version
                     env
+                    pwd
                     tree .
                     python $SET_UP_STAGE_ADO_COMMAND
                 '''
