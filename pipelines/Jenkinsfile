@@ -8,7 +8,7 @@ pipeline {
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
         CONDA_BIN_PATH = '/opt/miniconda3/bin'
         PATH = "${CONDA_BIN_PATH}:${env.PATH}"
-        FUNCTIONS_WORK_DIR = '/home/jenkins/workspace/one-press-functions'
+        FUNCTIONS_WORK_DIR = "${WORKSPACE}/one-press-functions"
     }
 
     stages {
