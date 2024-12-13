@@ -6,7 +6,7 @@ pipeline {
         ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
         ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
-        CONDA_BIN_PATH = '/opt/miniconda3/bin/'
+        CONDA_BIN_PATH = '/opt/miniconda3/bin'
     }
 
     stages {
@@ -36,10 +36,7 @@ pipeline {
                     }
                 }
                 sh '''
-                    // echo "##vso[task.setvariable variable=PATH;]${CONDA_BIN_PATH}:${PATH}"
-                    // echo "##vso[task.setvariable variable=PYTHONPATH;]${FUNCTIONS_WORK_DIR}:${PYTHONPATH}"
                     export PATH=${CONDA_BIN_PATH}:${PATH}
-                    // export PYTHONPATH=${FUNCTIONS_WORK_DIR}:${PYTHONPATH}
                     conda activate one-press-functions
                     pwd
                     ls -lah
