@@ -9,6 +9,7 @@ pipeline {
         CONDA_BIN_PATH = '/opt/miniconda3/bin'
         PATH = "${CONDA_BIN_PATH}:${env.PATH}"
         FUNCTIONS_WORK_DIR = "${WORKSPACE}/one-press-functions"
+        PYTHONPATH = "${FUNCTIONS_WORK_DIR}:${PYTHONPATH}"
     }
 
     stages {
