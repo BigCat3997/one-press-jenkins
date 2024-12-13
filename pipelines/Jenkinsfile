@@ -43,6 +43,7 @@ pipeline {
                     pwd
                     whoami
                     ls -la /
+                    tree /opt
                     ls -la /opt/miniconda3/bin
                 '''
             }
