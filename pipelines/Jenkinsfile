@@ -40,6 +40,9 @@ pipeline {
                     source ${CONDA_BIN_PATH}/activate one-press-functions
                     pwd
                     ls -lah
+                    pwd
+                    whoami
+                    ls -la /
                     ls -la /opt/miniconda3/bin
                 '''
             }
