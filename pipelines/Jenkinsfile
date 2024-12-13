@@ -70,17 +70,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh '''
-                    source activate one-press-functions
-                    python --version
-                    ls -lah
-                '''
-                sh 'echo "Hello World"'
-                sh '''
-                    echo "Multiline shell steps works too"
-                    ls -lah
-                '''
-            // sh 'touch "a.txt"'
+                sh '''#!/bin/bash
+                        source activate one-press-functions
+                        python $SET_UP_STAGE_ADO_COMMAND
+                    '''
             }
         }
     }
