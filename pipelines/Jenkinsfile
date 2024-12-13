@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'debian-docker-agent1' }
 
+    parameters {
+        string(name: 'STATEMENT', defaultValue: 'hello; ls /', description: 'What should I say?')
+    }
+
     environment {
         PYTHON_SCRIPT = '--version'
         ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
