@@ -45,16 +45,22 @@ pipeline {
                         ])
                     }
                 }
+
                 sh '''#!/bin/bash
                     env
                 '''
 
-                sh '''#!/bin/bash
-                    source activate one-press-functions
-                    export BOOTSTRAP_PREFIX_PATH=${WORKSPACE}
-                    export STAGE_NAME=BOOTSTRAP
-                    python $SET_UP_STAGE_ADO_COMMAND
-                '''
+                withEnv(
+                    [
+                        "BOOTSTRAP_PREFIX_PATH=${env.WORKSPACE}",
+                        "STAGE_NAME=BOOTSTRAP"
+                    ]
+                ) {
+                    sh '''#!/bin/bash
+                        source activate one-press-functions
+                        python $SET_UP_STAGE_ADO_COMMAND
+                    '''
+                }
             }
         }
 
