@@ -52,6 +52,7 @@ pipeline {
                     source activate one-press-functions
                     python --version
                     env
+                    tree .
                 '''
 
             //               - bash: |
