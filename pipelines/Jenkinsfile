@@ -7,10 +7,22 @@ pipeline {
         ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
         CONDA_BIN_PATH = '/opt/miniconda3/bin'
+    // FUNCTIONS_WORK_DIR =
     }
 
     stages {
         stage('Bootstrap') {
+            environment {
+                PYTHON_SCRIPT = '--version'
+                ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
+                ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
+                MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
+            // CONDA_BIN_PATH = '/opt/miniconda3/bin'
+            // EXECUTE_COMMAND= ${{ parameters.functionsWorkDir }}/app/main.py SET_UP_STAGE_ADO
+            // EXECUTE_COMMAND= ${{ parameters.functionsWorkDir }}/app/main.py GIT_CLONE_ADO
+            // EXECUTE_COMMAND= ${{ parameters.functionsWorkDir }}/app/main.py OVERRIDE_BUILD_NUMBER_ADO
+            // EXECUTE_COMMAND= ${{ parameters.functionsWorkDir }}/app/main.py WRITE_DIARY
+            }
             steps {
                 script {
                     dir('one-press-functions') {
@@ -39,13 +51,25 @@ pipeline {
                     export PATH=${CONDA_BIN_PATH}:${PATH}
                     source activate one-press-functions
                     python --version
+                    env
                 '''
+
+            //               - bash: |
+            //   source activate $FUNCTIONS_VENV
+            //   python $EXECUTE_COMMAND
+            // env:
+            //   FUNCTIONS_VENV: ${{ parameters.functionsVenv }}
+            //   EXECUTE_COMMAND: ${{ parameters.functionsWorkDir }}/app/main.py SET_UP_STAGE_ADO
+            //   STAGE_NAME: BOOTSTRAP
+            //   BOOTSTRAP_PREFIX_PATH: "${{ parameters.workspaceWorkDir }}"
+            // displayName: "Bootstrap: Set up stage"
             }
         }
 
         stage('Build') {
             steps {
                 sh '''
+                    python --version
                     ls -lah
                 '''
                 sh 'echo "Hello World"'
@@ -53,15 +77,15 @@ pipeline {
                     echo "Multiline shell steps works too"
                     ls -lah
                 '''
-                // sh 'touch "a.txt"'
+            // sh 'touch "a.txt"'
             }
         }
     }
 
-    post {
-        always {
-            echo 'Pipeline finished.'
-            archiveArtifacts artifacts: 'a.txt', fingerprint: true
-        }
-    }
+    // post {
+    //     always {
+    //         echo 'Pipeline finished.'
+    //         archiveArtifacts artifacts: 'a.txt', fingerprint: true
+    //     }
+    // }
 }
