@@ -7,7 +7,8 @@ pipeline {
         ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
         CONDA_BIN_PATH = '/opt/miniconda3/bin'
-    // FUNCTIONS_WORK_DIR =
+        PATH = "${CONDA_BIN_PATH}:${env.PATH}"
+        FUNCTIONS_WORK_DIR = '/home/jenkins/workspace/one-press-functions'
     }
 
     stages {
@@ -17,6 +18,7 @@ pipeline {
                 ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
                 ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
                 MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
+                SET_UP_STAGE_ADO_COMMAND = "${FUNCTIONS_WORK_DIR}/app/main.py SET_UP_STAGE_ADO"
             // CONDA_BIN_PATH = '/opt/miniconda3/bin'
             // EXECUTE_COMMAND= ${{ parameters.functionsWorkDir }}/app/main.py SET_UP_STAGE_ADO
             // EXECUTE_COMMAND= ${{ parameters.functionsWorkDir }}/app/main.py GIT_CLONE_ADO
@@ -48,11 +50,11 @@ pipeline {
                     }
                 }
                 sh '''#!/bin/bash
-                    export PATH=${CONDA_BIN_PATH}:${PATH}
                     source activate one-press-functions
                     python --version
                     env
                     tree .
+                    python $SET_UP_STAGE_ADO_COMMAND
                 '''
 
             //               - bash: |
@@ -70,6 +72,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh '''
+                    source activate one-press-functions
                     python --version
                     ls -lah
                 '''
