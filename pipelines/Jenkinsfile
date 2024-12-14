@@ -155,9 +155,11 @@ pipeline {
             cleanWs(cleanWhenNotBuilt: false,
                     deleteDirs: true,
                     disableDeferredWipeout: true,
+                    cleanWhenFailure(true)
                     notFailBuild: true,
                     patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
-                                [pattern: '.propsfile', type: 'EXCLUDE']])
+                                [pattern: '.propsfile', type: 'EXCLUDE']]
+            )
         }
     }
 }
