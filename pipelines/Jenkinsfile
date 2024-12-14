@@ -80,6 +80,7 @@ pipeline {
                 sh '''#!/bin/bash
                     ls -lash .
                     env
+                    echo ${env.bootstrap_section_path}
                 '''
             }
         }
