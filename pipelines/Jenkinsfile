@@ -69,18 +69,19 @@ pipeline {
 
                 script {
                     def envVars = readFile("${env.WORKSPACE}/bootstrap_section/env_vars.sh").split('\n')
+                    def newEnvVars = []
                     envVars.each { envVar ->
                         if (envVar) {
                             def (key, value) = envVar.split('=')
-                            env[key] = value.replaceAll('"', '')
+                            newEnvVars.add("${key}=${value.replaceAll('"', '')}")
                         }
                     }
-
-                    sh """#!/bin/bash
-                        ls -lash .
-                        env
-                        echo ${env.bootstrap_section_path}
-                    """
+                    withEnv(newEnvVars) {
+                        sh '''#!/bin/bash
+                            ls -lash .
+                            env
+                        '''
+                    }
                 }
 
                 sh """#!/bin/bash
