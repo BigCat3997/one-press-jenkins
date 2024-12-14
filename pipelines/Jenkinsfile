@@ -152,10 +152,14 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished.'
-            cleanWs(cleanWhenNotBuilt: false,
+            cleanWs(
+                    cleanWhenAborted(true),
+                    cleanWhenFailure(true),
+                    cleanWhenNotBuilt(false),
+                    cleanWhenSuccess(true),
+                    cleanWhenUnstable(true),
                     deleteDirs: true,
                     disableDeferredWipeout: true,
-                    cleanWhenFailure(true)
                     notFailBuild: true,
                     patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
                                 [pattern: '.propsfile', type: 'EXCLUDE']]
