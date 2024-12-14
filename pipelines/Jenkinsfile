@@ -50,9 +50,9 @@ pipeline {
                     }
                 }
 
-                sh '''#!/bin/bash
-                    env
-                '''
+                // sh '''#!/bin/bash
+                //     env
+                // '''
 
                 withEnv(
                     [
@@ -78,6 +78,7 @@ pipeline {
 
                 sh '''#!/bin/bash
                     ls -lash .
+                    env
                 '''
             }
         }
