@@ -81,28 +81,6 @@ pipeline {
                     env
                 '''
 
-        //         withEnv(
-        //             [
-        //                 "BOOTSTRAP_PREFIX_PATH=${env.WORKSPACE}",
-        //                 "STAGE_NAME=BOOTSTRAP"
-        //                 "APP_SOURCE_PREFIX_PATH" = "${env.WORKSPACE}/maven-simple-api",
-        //                 "APP_SOURCE" = "${env.WORKSPACE}/maven-simple-api",
-        //                 "GIT_URL" = "${env.WORKSPACE}/maven-simple-api",
-        //                 "GIT_BRANCH" = "${env.WORKSPACE}/maven-simple-api",
-        //                 "IS_PRIVATE_REPO" = "${env.WORKSPACE}/maven-simple-api",
-        //                 "GIT_USERNAME" = "${env.WORKSPACE}/maven-simple-api",
-        //                 "GIT_TOKEN" = "${env.WORKSPACE}/maven-simple-api",
-        //                 "ARCHIVE_PATH" = "${env.WORKSPACE}/maven-simple-api",
-        //             ]
-        //         ) {
-        //             sh '''#!/bin/bash
-        //                 source activate one-press-functions
-        //                 python $SET_UP_STAGE_ADO_COMMAND
-        //             '''
-        //         }
-        //     }
-        // }
-
         stage('Build') {
             steps {
                 sh '''#!/bin/bash
