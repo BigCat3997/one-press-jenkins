@@ -63,6 +63,7 @@ pipeline {
                     sh '''#!/bin/bash
                         source activate one-press-functions
                         python $SET_UP_STAGE_ADO_COMMAND
+                        cat $WORKSPACE/bootstrap_section/env_vars.sh
                     '''
                 }
 
