@@ -73,14 +73,15 @@ pipeline {
                     """
 
                 script {
-                    def envVars = readFile("${env.WORKSPACE}/bootstrap_section/env_vars.sh").split('\n')
-                    def newEnvVars = []
-                    envVars.each { envVar ->
-                        if (envVar) {
-                            def (key, value) = envVar.split('=')
-                            newEnvVars.add("${key}=${value.replaceAll('"', '')}")
-                        }
-                    }
+                    // def envVars = readFile("${env.WORKSPACE}/bootstrap_section/env_vars.sh").split('\n')
+                    // def newEnvVars = []
+                    // envVars.each { envVar ->
+                    //     if (envVar) {
+                    //         def (key, value) = envVar.split('=')
+                    //         newEnvVars.add("${key}=${value.replaceAll('"', '')}")
+                    //     }
+                    // }
+                    def envVars = setGlobalEnvVars("${env.WORKSPACE}/bootstrap_section/env_vars.sh")
                     withEnv(newEnvVars) {
                         sh '''#!/bin/bash
                             ls -lash .
@@ -89,12 +90,12 @@ pipeline {
                     }
                 }
 
-                withEnv(setGlobalEnvVars(("${env.WORKSPACE}/bootstrap_section/env_vars.sh"))) {
-                        sh '''#!/bin/bash
-                            ls -lash .
-                            env
-                        '''
-                }
+                // withEnv() {
+                //         sh '''#!/bin/bash
+                //             ls -lash .
+                //             env
+                //         '''
+                // }
 
                 // sh """#!/bin/bash
                 //     ls -lash .
