@@ -67,6 +67,11 @@ pipeline {
                     '''
                 }
 
+                    sh """#!/bin/bash
+                        echo "export NEW_ENV=ABC" > ${env.WORKSPACE}/bootstrap_section/env_vars.sh
+                        cat ${env.WORKSPACE}/bootstrap_section/env_vars.sh
+                    """
+
                 script {
                     def envVars = readFile("${env.WORKSPACE}/bootstrap_section/env_vars.sh").split('\n')
                     def newEnvVars = []
