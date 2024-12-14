@@ -37,9 +37,8 @@ pipeline {
             }
 
             steps {
-                deleteDir()
-
                 script {
+                    // deleteDir()
                     dir('one-press-functions') {
                         checkout([
                             $class: 'GitSCM',
