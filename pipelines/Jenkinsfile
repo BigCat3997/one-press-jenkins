@@ -154,15 +154,15 @@ pipeline {
     post {
         always {
             echo 'Pipeline finished.'
-            cleanWs(
-                    cleanWhenAborted(true),
-                    cleanWhenFailure(true),
-                    cleanWhenNotBuilt(false),
-                    cleanWhenSuccess(true),
-                    cleanWhenUnstable(true),
-                    deleteDirs: true,
-                    disableDeferredWipeout: true,
-                    notFailBuild: true)
+            // cleanWs(
+            //         cleanWhenAborted(true),
+            //         cleanWhenFailure(true),
+            //         cleanWhenNotBuilt(false),
+            //         cleanWhenSuccess(true),
+            //         cleanWhenUnstable(true),
+            //         deleteDirs: true,
+            //         disableDeferredWipeout: true,
+            //         notFailBuild: true)
         }
     }
 }
