@@ -100,6 +100,7 @@ pipeline {
                     // newEnvVars.add("ARCHIVE_PATH=abc")
                     withEnv(newEnvVars) {
                         sh '''#!/bin/bash
+                            echo $APP_SOURCE_PREFIX_PATH
                             echo $GIT_BRANCH
                             source activate one-press-functions
                             python $GIT_CLONE_ADO_COMMAND
