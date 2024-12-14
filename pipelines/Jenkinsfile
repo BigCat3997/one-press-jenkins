@@ -93,7 +93,7 @@ pipeline {
                 }
 
 
-            - bash: |
+            // - bash: |
             //   source activate $FUNCTIONS_VENV
             //   python $EXECUTE_COMMAND
             // env:
