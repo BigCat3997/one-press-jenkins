@@ -67,7 +67,7 @@ pipeline {
                 }
 
                 script {
-                    def envVars = readFile('${env.WORKSPACE}/bootstrap_section/env_vars.sh').split('\n')
+                    def envVars = readFile("${env.WORKSPACE}/bootstrap_section/env_vars.sh").split('\n')
                     envVars.each { envVar ->
                         if (envVar) {
                             def (key, value) = envVar.split('=')
