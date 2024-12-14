@@ -89,11 +89,18 @@ pipeline {
                     }
                 }
 
-                sh """#!/bin/bash
-                    ls -lash .
-                    env
-                    echo ${env.bootstrap_section_path}
-                """
+                withEnv(setGlobalEnvVars(("${env.WORKSPACE}/bootstrap_section/env_vars.sh"))) {
+                        sh '''#!/bin/bash
+                            ls -lash .
+                            env
+                        '''
+                }
+
+                // sh """#!/bin/bash
+                //     ls -lash .
+                //     env
+                //     echo ${env.bootstrap_section_path}
+                // """
             }
         }
 
@@ -112,5 +119,24 @@ pipeline {
     //         echo 'Pipeline finished.'
     //         archiveArtifacts artifacts: 'a.txt', fingerprint: true
     //     }
+    // }
+}
+
+
+def setGlobalEnvVars(filePath) {
+    def envVars = readFile(filePath).split('\n')
+    def newEnvVars = []
+    envVars.each { envVar ->
+        if (envVar) {
+            def (key, value) = envVar.split('=')
+            newEnvVars.add("${key}=${value.replaceAll('"', '')}")
+        }
+    }
+    return envVars
+    // withEnv(newEnvVars) {
+    //     sh '''#!/bin/bash
+    //         ls -lash .
+    //         env
+    //     '''
     // }
 }
