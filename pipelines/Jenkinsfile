@@ -24,6 +24,7 @@ pipeline {
                 ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
                 MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
                 SET_UP_STAGE_ADO_COMMAND = "${FUNCTIONS_WORK_DIR}/app/main.py SET_UP_STAGE_ADO"
+                GIT_CLONE_ADO_COMMAND = "${FUNCTIONS_WORK_DIR}/app/main.py GIT_CLONE_ADO"
             }
             steps {
                 script {
@@ -67,14 +68,22 @@ pipeline {
                     '''
                 }
 
-                    sh """#!/bin/bash
-                        echo "NEW_ENV=ABC" > ${env.WORKSPACE}/bootstrap_section/env_vars.sh
-                        cat ${env.WORKSPACE}/bootstrap_section/env_vars.sh
-                    """
+                    // sh """#!/bin/bash
+                    //     echo "NEW_ENV=ABC" > ${env.WORKSPACE}/bootstrap_section/env_vars.sh
+                    //     cat ${env.WORKSPACE}/bootstrap_section/env_vars.sh
+                    // """
 
                 script {
                     def utils = load "${env.WORKSPACE}/pipelines/envUtils.groovy"
                     def newEnvVars = utils.setGlobalEnvVars("${env.WORKSPACE}/bootstrap_section/env_vars.sh")
+                    newEnvVars.add("APP_SOURCE_PREFIX_PATH=${env.WORKSPACE}")
+                    newEnvVars.add("APP_SOURCE=abc")
+                    newEnvVars.add("GIT_URL=abc")
+                    newEnvVars.add("GIT_BRANCH=abc")
+                    newEnvVars.add("IS_PRIVATE_REPO=abc")
+                    newEnvVars.add("GIT_USERNAME=abc")
+                    newEnvVars.add("GIT_TOKEN=abc")
+                    newEnvVars.add("ARCHIVE_PATH=abc")
                     withEnv(newEnvVars) {
                         sh '''#!/bin/bash
                             ls -lash .
@@ -82,6 +91,24 @@ pipeline {
                         '''
                     }
                 }
+
+
+            - bash: |
+            //   source activate $FUNCTIONS_VENV
+            //   python $EXECUTE_COMMAND
+            // env:
+            //   FUNCTIONS_VENV: ${{ parameters.functionsVenv }}
+            //   EXECUTE_COMMAND: ${{ parameters.functionsWorkDir }}/app/main.py GIT_CLONE_ADO
+            //   APP_SOURCE_PREFIX_PATH: $(FLOW_BOOTSTRAP_SECTION_PATH)
+            //   APP_SOURCE: ${{ parameters.appFolder }}
+            //   GIT_URL: ${{ parameters.gitUrl }}
+            //   GIT_BRANCH: ${{ parameters.gitBranch }}
+            //   IS_PRIVATE_REPO: ${{ parameters.isPrivateRepo }}
+            //   GIT_USERNAME: ${{ parameters.gitUsername }}
+            //   GIT_TOKEN: ${{ parameters.gitToken }}
+            //   ARCHIVE_PATH: $(Build.ArtifactStagingDirectory)
+            // displayName: "Bootstrap: Clone source"
+
 
                 // withEnv() {
                 //         sh '''#!/bin/bash
