@@ -68,10 +68,13 @@ pipeline {
                 withEnv(
                     [
                         "BOOTSTRAP_PREFIX_PATH=${env.WORKSPACE}",
-                        "STAGE_NAME=BOOTSTRAP"
+                        "STAGE_NAME=BOOTSTRAP",
+                        "SECRET_GIT_TOKEN=${env.SECRET_GIT_TOKEN}",
+
                     ]
                 ) {
                     sh '''#!/bin/bash
+                        echo $SECRET_GIT_TOKEN
                         source activate one-press-functions
                         python $SET_UP_STAGE_ADO_COMMAND
                         cat $WORKSPACE/bootstrap_section/env_vars.sh
