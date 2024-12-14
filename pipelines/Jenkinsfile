@@ -78,7 +78,6 @@ pipeline {
 
                 sh '''#!/bin/bash
                     ls -lash .
-                    env
                 '''
 
         stage('Build') {
