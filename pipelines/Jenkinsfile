@@ -2,7 +2,7 @@ pipeline {
     agent { label 'debian-docker-agent1' }
 
     parameters {
-        string(name: 'STATEMENT', defaultValue: 'hello; ls /', description: 'What should I say?')
+        string(name: 'git_branch', defaultValue: 'main', description: 'Branch to clone')
     }
 
     environment {
