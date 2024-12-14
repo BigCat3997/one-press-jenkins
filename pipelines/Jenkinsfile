@@ -90,7 +90,8 @@ pipeline {
                 script {
                     def utils = load "${env.WORKSPACE}/pipelines/envUtils.groovy"
                     def newEnvVars = utils.setGlobalEnvVars("${env.WORKSPACE}/bootstrap_section/env_vars.sh")
-                    newEnvVars.add("APP_SOURCE_PREFIX_PATH=${env.FLOW_BOOTSTRAP_SECTION_PATH}")
+                    def appSourcePrefixPath = newEnvVars.find { it.startsWith('APP_SOURCE_PREFIX_PATH=') }?.split('=')[1]
+                    newEnvVars.add("APP_SOURCE_PREFIX_PATH=${appSourcePrefixPath}")
                     // newEnvVars.add("APP_SOURCE=abc")
                     newEnvVars.add("GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}")
                     newEnvVars.add("GIT_BRANCH=${params.gitBranch}")
