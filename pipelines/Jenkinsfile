@@ -73,15 +73,8 @@ pipeline {
                     """
 
                 script {
-                    // def envVars = readFile("${env.WORKSPACE}/bootstrap_section/env_vars.sh").split('\n')
-                    // def newEnvVars = []
-                    // envVars.each { envVar ->
-                    //     if (envVar) {
-                    //         def (key, value) = envVar.split('=')
-                    //         newEnvVars.add("${key}=${value.replaceAll('"', '')}")
-                    //     }
-                    // }
-                    def envVars = setGlobalEnvVars("${env.WORKSPACE}/bootstrap_section/env_vars.sh")
+                    def utils = load "${env.WORKSPACE}/pipelines/envUtils.groovy"
+                    def newEnvVars = utils.setGlobalEnvVars("${env.WORKSPACE}/bootstrap_section/env_vars.sh")
                     withEnv(newEnvVars) {
                         sh '''#!/bin/bash
                             ls -lash .
@@ -124,20 +117,14 @@ pipeline {
 }
 
 
-def setGlobalEnvVars(filePath) {
-    def envVars = readFile(filePath).split('\n')
-    def newEnvVars = []
-    envVars.each { envVar ->
-        if (envVar) {
-            def (key, value) = envVar.split('=')
-            newEnvVars.add("${key}=${value.replaceAll('"', '')}")
-        }
-    }
-    return envVars
-    // withEnv(newEnvVars) {
-    //     sh '''#!/bin/bash
-    //         ls -lash .
-    //         env
-    //     '''
-    // }
-}
+// def setGlobalEnvVars(filePath) {
+//     def envVars = readFile(filePath).split('\n')
+//     def newEnvVars = []
+//     envVars.each { envVar ->
+//         if (envVar) {
+//             def (key, value) = envVar.split('=')
+//             newEnvVars.add("${key}=${value.replaceAll('"', '')}")
+//         }
+//     }
+//     return newEnvVars
+// }
