@@ -65,6 +65,10 @@ pipeline {
                         python $SET_UP_STAGE_ADO_COMMAND
                     '''
                 }
+
+                sh '''#!/bin/bash
+                    ls -lash .
+                '''
             }
         }
 
