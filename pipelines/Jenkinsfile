@@ -79,6 +79,8 @@ pipeline {
                 sh '''#!/bin/bash
                     ls -lash .
                 '''
+            }
+        }
 
         stage('Build') {
             steps {
