@@ -18,6 +18,7 @@ pipeline {
 
     stages {
         stage('Bootstrap') {
+
             environment {
                 PYTHON_SCRIPT = '--version'
                 ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
@@ -26,6 +27,15 @@ pipeline {
                 SET_UP_STAGE_ADO_COMMAND = "${FUNCTIONS_WORK_DIR}/app/main.py SET_UP_STAGE_ADO"
                 GIT_CLONE_ADO_COMMAND = "${FUNCTIONS_WORK_DIR}/app/main.py GIT_CLONE_ADO"
             }
+
+            options {
+                azureKeyVault(
+                    credentialID: 'spcicdstarter01', 
+                    keyVaultURL: 'https://kvcicdstarter01.vault.azure.net/', 
+                    secrets: [[envVariable: 'SECRET_GIT_TOKEN', name: 'SECRET-GIT-TOKEN', secretType: 'Secret']]
+                )
+            }
+
             steps {
                 script {
                     dir('one-press-functions') {
@@ -76,7 +86,7 @@ pipeline {
                 script {
                     def utils = load "${env.WORKSPACE}/pipelines/envUtils.groovy"
                     def newEnvVars = utils.setGlobalEnvVars("${env.WORKSPACE}/bootstrap_section/env_vars.sh")
-                    newEnvVars.add("APP_SOURCE_PREFIX_PATH=${env.WORKSPACE}")
+                    newEnvVars.add("APP_SOURCE_PREFIX_PATH=${env.FLOW_BOOTSTRAP_SECTION_PATH}")
                     newEnvVars.add("APP_SOURCE=abc")
                     newEnvVars.add("GIT_URL=abc")
                     newEnvVars.add("GIT_BRANCH=abc")
