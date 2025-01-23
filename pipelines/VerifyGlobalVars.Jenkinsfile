@@ -20,15 +20,14 @@ pipeline {
                     //     echo 'export PATH=\$PATH:${CONDA_BIN_PATH}' >> environment.sh
                     //     echo 'export PYTHONPATH=\$PYTHONPATH:${FUNCTIONS_WORK_DIR}' >> environment.sh
                     // """
-
+// conda create -n one-press-functions python=3.10 -y
                     sh """
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
+                        conda init
                         git clone ${FUNCTIONS_REPO_URL}
-                        // conda create -n one-press-functions python=3.10 -y
                         cd one-press-functions
                         conda activate one-press-functions
-                        conda init
                         pip install -r requirements.txt
                     """
                 }
