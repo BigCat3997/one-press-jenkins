@@ -33,6 +33,8 @@ pipeline {
                         def (key, value) = line.split('=')
                         env."${key}" = value
                     }
+                    echo "Modified GLOBAL_VAR1: ${env.GLOBAL_VAR1}"
+                    echo "Modified GLOBAL_VAR2: ${env.GLOBAL_VAR2}"
                 }
             }
         }
