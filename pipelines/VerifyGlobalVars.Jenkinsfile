@@ -24,7 +24,7 @@ pipeline {
                     sh """
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
-                        conda init sh
+                        conda init bash
                         git clone ${FUNCTIONS_REPO_URL}
                         cd one-press-functions
                         conda activate one-press-functions
