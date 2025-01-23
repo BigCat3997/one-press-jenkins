@@ -21,23 +21,18 @@ pipeline {
         stage('Run Python Script') {
             steps {
                 script {
-                    // Run the Python script and capture the output
-                    def output = sh(script: 'python3 pipelines/modify_env.py', returnStdout: true).trim()
-                    echo "Python script output:\n${output}"
+                    // Run the Python script
+                    sh 'python3 pipelines/modify_env.py'
 
-                    // Parse the output and set the Groovy variables
-                    def newEnvVars = [:]
-                    output.split('\n').each { line ->
+                    // Read the updated environment variables from the file
+                    def envVars = readFile('pipelines/env_vars.txt').trim()
+                    echo "Updated environment variables:\n${envVars}"
+
+                    // Parse the file and set the environment variables
+                    envVars.split('\n').each { line ->
                         def (key, value) = line.split('=')
-                        newEnvVars[key] = value
+                        env."${key}" = value
                     }
-
-                    // Update the environment variables
-                    env.GLOBAL_VAR1 = newEnvVars['GLOBAL_VAR1']
-                    env.GLOBAL_VAR2 = newEnvVars['GLOBAL_VAR2']
-
-                    echo "After GLOBAL_VAR1: ${env.GLOBAL_VAR1}"
-                    echo "After GLOBAL_VAR2: ${env.GLOBAL_VAR2}"
                 }
             }
         }
