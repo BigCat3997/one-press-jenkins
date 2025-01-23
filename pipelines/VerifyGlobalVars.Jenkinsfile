@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/BigCat3997/one-press-ado-templates.git'
-        BRANCH = 'main'
-        // CONDA_BIN_PATH = 'abc'
-        // FUNCTIONS_WORK_DIR = 'abc'
+        REPO_URL = "https://github.com/BigCat3997/one-press-ado-templates.git"
+        BRANCH = "main"
+        CONDA_BIN_PATH = "abc"
+        FUNCTIONS_WORK_DIR = "abc"
         PATH="${env.CONDA_BIN_PATH}:${env.PATH}"
         PYTHONPATH="${env.FUNCTIONS_WORK_DIR}:${env.PYTHONPATH}"
     }
