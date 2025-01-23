@@ -25,7 +25,7 @@ pipeline {
                     sh 'python3 pipelines/modify_env.py'
 
                     // Read the updated environment variables from the file
-                    def envVars = readFile('pipelines/env_vars.txt').trim()
+                    def envVars = readFile('env_vars.txt').trim()
                     echo "Updated environment variables:\n${envVars}"
 
                     // Parse the file and set the environment variables
