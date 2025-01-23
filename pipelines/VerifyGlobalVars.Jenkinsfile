@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     // Run the Python script and capture the output
-                    def output = sh(script: 'python3 modify_env.py', returnStdout: true).trim()
+                    def output = sh(script: 'python modify_env.py', returnStdout: true).trim()
                     echo "Python script output:\n${output}"
 
                     // Parse the output and set the environment variables
