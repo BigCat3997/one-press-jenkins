@@ -21,7 +21,6 @@ pipeline {
                     // """
 
                     sh """
-                        // . environment.sh
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
                     """
