@@ -3,8 +3,9 @@ pipeline {
 
     environment {
         REPO_URL = "https://github.com/BigCat3997/one-press-ado-templates.git"
+        FUNCTIONS_REPO_URL = "https://github.com/BigCat3997/one-press-functions.git"
         BRANCH = "main"
-        CONDA_BIN_PATH = "abc"
+        CONDA_BIN_PATH = "/opt/miniconda3/bin"
         FUNCTIONS_WORK_DIR = "abc"
         PATH="${env.CONDA_BIN_PATH}:${env.PATH}"
         PYTHONPATH="${env.FUNCTIONS_WORK_DIR}:${env.PYTHONPATH}"
@@ -23,6 +24,11 @@ pipeline {
                     sh """
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
+                        git clone ${FUNCTIONS_REPO_URL}
+                        conda create -n one-press-functions python=3.10 -y
+                        cd one-press-functions
+                        conda activate one-press-functions
+                        pip install -r requirements.txt
                     """
                 }
             }
