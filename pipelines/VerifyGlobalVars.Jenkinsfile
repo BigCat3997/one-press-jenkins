@@ -25,11 +25,16 @@ pipeline {
                     def output = sh(script: 'python3 pipelines/modify_env.py', returnStdout: true).trim()
                     echo "Python script output:\n${output}"
 
-                    // Parse the output and set the environment variables
+                    // Parse the output and set the Groovy variables
+                    def newEnvVars = [:]
                     output.split('\n').each { line ->
                         def (key, value) = line.split('=')
-                        env."${key}" = value
+                        newEnvVars[key] = value
                     }
+
+                    // Update the environment variables
+                    env.GLOBAL_VAR1 = newEnvVars['GLOBAL_VAR1']
+                    env.GLOBAL_VAR2 = newEnvVars['GLOBAL_VAR2']
                 }
             }
         }
