@@ -2,48 +2,49 @@ pipeline {
     agent any
 
     environment {
-        // Define initial environment variables
-        VAR1 = 'initial_value1'
-        VAR2 = 'initial_value2'
-        VAR3 = 'initial_value3'
+        REPO_URL = 'https://github.com/BigCat3997/one-press-ado-templates.git'
+        BRANCH = 'main'
     }
 
     stages {
-        stage('Initialize') {
+        stage('Clone Repository') {
             steps {
                 script {
-                    // Print initial values
-                    echo "Initial VAR1: ${env.VAR1}"
-                    echo "Initial VAR2: ${env.VAR2}"
-                    echo "Initial VAR3: ${env.VAR3}"
+                    // Clone the GitHub repository
+                    sh "git clone -b ${BRANCH} ${REPO_URL} repo"
                 }
             }
         }
 
-        stage('Run Script and Capture Output') {
+        stage('Retrieve Commit IDs') {
             steps {
                 script {
-                    // Run the script and capture the output
-                    def output = sh(script: 'bash generate_vars.sh', returnStdout: true).trim()
-                    echo "Script output:\n${output}"
+                    // Change directory to the cloned repository
+                    dir('repo') {
+                        // Retrieve the Git commit ID and short commit ID
+                        def commitId = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                        def shortCommitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
 
-                    // Parse the output and set the environment variables
-                    output.split('\n').each { line ->
-                        def (key, value) = line.split('=')
-                        env."${key}" = value
+                        // Write the commit IDs to a file named environment.sh
+                        writeFile file: 'environment.sh', text: """
+                        #!/bin/bash
+                        export GIT_COMMIT_ID=${commitId}
+                        export GIT_SHORT_COMMIT_ID=${shortCommitId}
+                        """
+
+                        // Print the commit IDs
+                        echo "Git Commit ID: ${commitId}"
+                        echo "Git Short Commit ID: ${shortCommitId}"
                     }
                 }
             }
         }
 
-        stage('Use Modified Variables') {
+        stage('Verify Environment File') {
             steps {
                 script {
-                    // Print modified values
-                    sh '. ./generate_vars.sh'
-                    echo "Modified VAR1: ${env.VAR1}"
-                    echo "Modified VAR2: ${env.VAR2}"
-                    echo "Modified VAR3: ${env.VAR3}"
+                    // Print the contents of the environment.sh file
+                    sh 'cat repo/environment.sh'
                 }
             }
         }
