@@ -40,6 +40,7 @@ pipeline {
             steps {
                 script {
                     // Print modified values
+                    cat generate_vars.sh
                     echo "Modified VAR1: ${env.VAR1}"
                     echo "Modified VAR2: ${env.VAR2}"
                     echo "Modified VAR3: ${env.VAR3}"
