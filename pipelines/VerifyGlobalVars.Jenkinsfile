@@ -25,9 +25,10 @@ pipeline {
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
                         git clone ${FUNCTIONS_REPO_URL}
-                        conda create -n one-press-functions python=3.10 -y
+                        // conda create -n one-press-functions python=3.10 -y
                         cd one-press-functions
                         conda activate one-press-functions
+                        conda init
                         pip install -r requirements.txt
                     """
                 }
