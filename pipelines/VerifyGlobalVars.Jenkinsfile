@@ -4,8 +4,8 @@ pipeline {
     environment {
         REPO_URL = 'https://github.com/BigCat3997/one-press-ado-templates.git'
         BRANCH = 'main'
-        CONDA_BIN_PATH = ''
-        FUNCTIONS_WORK_DIR = ''
+        CONDA_BIN_PATH = 'abc'
+        FUNCTIONS_WORK_DIR = 'abc'
     }
 
     stages {
@@ -14,16 +14,16 @@ pipeline {
                 script {
                     sh """
                         echo '#!/bin/bash' > environment.sh
-                        echo 'export CONDA_BIN_PATH=${CONDA_BIN_PATH}' >> environment.sh
-                        echo 'export FUNCTIONS_WORK_DIR=${FUNCTIONS_WORK_DIR}' >> environment.sh
-                        echo 'export PATH=\$PATH:${CONDA_BIN_PATH}:${FUNCTIONS_WORK_DIR}' >> environment.sh
+                        // echo 'export CONDA_BIN_PATH=${CONDA_BIN_PATH}' >> environment.sh
+                        // echo 'export FUNCTIONS_WORK_DIR=${FUNCTIONS_WORK_DIR}' >> environment.sh
+                        echo 'export PATH=\$PATH:${CONDA_BIN_PATH}' >> environment.sh
+                        echo 'export PYTHONPATH=\$PYTHONPATH:${FUNCTIONS_WORK_DIR}' >> environment.sh
                     """
 
                     sh """
                         . environment.sh
-                        echo "CONDA_BIN_PATH: $CONDA_BIN_PATH"
-                        echo "FUNCTIONS_WORK_DIR: $FUNCTIONS_WORK_DIR"
                         echo "PATH: $PATH"
+                        echo "PYTHONPATH: $PYTHONPATH"
                     """
                 }
             }
