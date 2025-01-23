@@ -3,8 +3,9 @@ pipeline {
 
     environment {
         // Define initial environment variables
-        GLOBAL_VAR1 = 'initial_value1'
-        GLOBAL_VAR2 = 'initial_value2'
+        VAR1 = 'initial_value1'
+        VAR2 = 'initial_value2'
+        VAR3 = 'initial_value3'
     }
 
     stages {
@@ -12,21 +13,22 @@ pipeline {
             steps {
                 script {
                     // Print initial values
-                    echo "Initial GLOBAL_VAR1: ${env.GLOBAL_VAR1}"
-                    echo "Initial GLOBAL_VAR2: ${env.GLOBAL_VAR2}"
+                    echo "Initial VAR1: ${env.VAR1}"
+                    echo "Initial VAR2: ${env.VAR2}"
+                    echo "Initial VAR3: ${env.VAR3}"
                 }
             }
         }
 
-        stage('Read Environment Variables from File') {
+        stage('Run Script and Capture Output') {
             steps {
                 script {
-                    // Read the environment variables from the file
-                    def envVars = readFile('env_vars.txt').trim()
-                    echo "Environment variables from file:\n${envVars}"
+                    // Run the script and capture the output
+                    def output = sh(script: 'bash generate_vars.sh', returnStdout: true).trim()
+                    echo "Script output:\n${output}"
 
-                    // Parse the file and set the environment variables
-                    envVars.split('\n').each { line ->
+                    // Parse the output and set the environment variables
+                    output.split('\n').each { line ->
                         def (key, value) = line.split('=')
                         env."${key}" = value
                     }
@@ -38,8 +40,9 @@ pipeline {
             steps {
                 script {
                     // Print modified values
-                    echo "Modified GLOBAL_VAR1: ${env.GLOBAL_VAR1}"
-                    echo "Modified GLOBAL_VAR2: ${env.GLOBAL_VAR2}"
+                    echo "Modified VAR1: ${env.VAR1}"
+                    echo "Modified VAR2: ${env.VAR2}"
+                    echo "Modified VAR3: ${env.VAR3}"
                 }
             }
         }
