@@ -35,6 +35,9 @@ pipeline {
                     // Update the environment variables
                     env.GLOBAL_VAR1 = newEnvVars['GLOBAL_VAR1']
                     env.GLOBAL_VAR2 = newEnvVars['GLOBAL_VAR2']
+
+                    echo "After GLOBAL_VAR1: ${env.GLOBAL_VAR1}"
+                    echo "After GLOBAL_VAR2: ${env.GLOBAL_VAR2}"
                 }
             }
         }
