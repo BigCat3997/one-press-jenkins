@@ -45,8 +45,7 @@ pipeline {
                 script {
                     // Print the contents of the environment.sh file
                     sh '. ./repo/environment.sh'
-                    echo "Git Commit ID: ${GIT_COMMIT_ID}"
-                    echo "Git Short Commit ID: ${GIT_SHORT_COMMIT_ID}"
+                    sh "echo ${GIT_COMMIT_ID}"
                 }
             }
         }
