@@ -1,0 +1,2 @@
+GLOBAL_VAR1=modified_value1
+GLOBAL_VAR2=modified_value2
