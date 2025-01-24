@@ -31,7 +31,11 @@ pipeline {
 
                     sh """
                         source generate_vars.sh
-                        echo ${VAR1}
+
+                        # Print the variables to verify
+                        echo "VAR1=\$VAR1"
+                        echo "VAR2=\$VAR2"
+                        echo "VAR3=\$VAR3"
                     """
 
                     sh """
