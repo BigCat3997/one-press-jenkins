@@ -31,7 +31,7 @@ pipeline {
 
                     sh """
                         source generate_vars.sh
-                        echo $VAR1
+                        echo ${VAR1}
                     """
 
                     sh """
