@@ -22,10 +22,10 @@ pipeline {
                     // """
 // conda create -n one-press-functions python=3.10 -y
                     sh """
-                        source
+                        conda init bash
+                        source activate base
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
-                        conda init bash
                         git clone ${FUNCTIONS_REPO_URL}
                         cd one-press-functions
                         conda activate one-press-functions
