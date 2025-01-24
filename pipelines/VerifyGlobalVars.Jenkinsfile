@@ -22,6 +22,7 @@ pipeline {
                     // """
 // conda create -n one-press-functions python=3.10 -y
                     sh """
+                        source
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
                         conda init bash
