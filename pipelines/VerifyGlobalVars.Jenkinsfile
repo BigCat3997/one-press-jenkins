@@ -48,12 +48,12 @@ pipeline {
                         cat /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
                     """
 
-                    sh """
+                    sh(label: 'Clone source', script: """
                         export STAGE_NAME=${stageName}
                         export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
                         source /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
-                        export APP_SOURCE_PREFIX_PATH=$FLOW_BOOTSTRAP_SECTION_DIR
+                        export APP_SOURCE_PREFIX_PATH=\$FLOW_BOOTSTRAP_SECTION_DIR
                         export APP_SOURCE="app_source"
                         export GIT_URL="https://github.com/BigCat3997/one-press-mock-projects.git"
                         export GIT_BRANCH="main"
@@ -63,7 +63,7 @@ pipeline {
 
                         source activate one-press-functions  > /dev/null 2>&1
                         python one-press-functions/app/main.py GIT_CLONE_ADO
-                    """
+                    """)
 
         //   - bash: |
         //       source activate $FUNCTIONS_VENV
