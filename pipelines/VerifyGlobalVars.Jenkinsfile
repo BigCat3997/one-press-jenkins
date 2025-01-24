@@ -20,6 +20,7 @@ pipeline {
                     //     echo 'export PATH=\$PATH:${CONDA_BIN_PATH}' >> environment.sh
                     //     echo 'export PYTHONPATH=\$PYTHONPATH:${FUNCTIONS_WORK_DIR}' >> environment.sh
                     // """
+                    def stageName = "BOOTSTRAP"
 
                     sh """
                         env
@@ -35,6 +36,8 @@ pipeline {
                     """
 // conda activate one-press-functions
                     sh """
+                        export STAGE_NAME=${stageName}
+                        export BOOTSTRAP_BASE_DIR=${WORKSPACE}
                         source activate one-press-functions
                         python one-press-functions/app/main.py INITIALIZE_WORKSPACE
                     """
