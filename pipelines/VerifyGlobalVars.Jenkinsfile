@@ -6,7 +6,7 @@ pipeline {
         FUNCTIONS_REPO_URL = "https://github.com/BigCat3997/one-press-functions.git"
         BRANCH = "main"
         CONDA_BIN_PATH = "/opt/miniconda3/bin"
-        FUNCTIONS_WORK_DIR = "abc"
+        FUNCTIONS_WORK_DIR = "${env.WORKSPACE}/one-press-functions"
         PATH="${env.CONDA_BIN_PATH}:${env.PATH}"
         PYTHONPATH="${env.FUNCTIONS_WORK_DIR}:${env.PYTHONPATH}"
     }
