@@ -34,7 +34,7 @@ pipeline {
 
                         source activate one-press-functions
                         python one-press-functions/app/main.py INITIALIZE_WORKSPACE
-                        ls -la
+                        ls -la /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/
                         cat /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
                     """
 
