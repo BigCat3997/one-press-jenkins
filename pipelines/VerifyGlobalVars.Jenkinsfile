@@ -17,46 +17,48 @@ pipeline {
                 script {
                     def stageName = "BOOTSTRAP"
 
-                    // sh """
-                    //     env
-                    //     git clone ${FUNCTIONS_REPO_URL} -b features/enhance-for-jenkins
-                    //     ls -la
-
-                    //     conda create -n one-press-functions python=3.10 -y
-                    //     source activate base
-                    //     conda activate one-press-functions
-                    //     pip install -r ./one-press-functions/requirements.txt
-                    // """
-
+                    echo "========== STARTING STAGE: ${stageName} =========="
 
                     sh """
-                        source generate_vars.sh
+                        env
+                        git clone ${FUNCTIONS_REPO_URL} -b features/enhance-for-jenkins
+                        ls -la
 
-                        # Print the variables to verify
-                        echo "VAR1=\$VAR1"
-                        echo "VAR2=\$VAR2"
-                        echo "VAR3=\$VAR3"
+                        conda create -n one-press-functions python=3.10 -y
+                        source activate base
+                        conda activate one-press-functions
+                        pip install -r ./one-press-functions/requirements.txt
                     """
 
-                    // sh """
-                    //     export STAGE_NAME=${stageName}
-                    //     export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
-                    //     source activate one-press-functions
-                    //     python one-press-functions/app/main.py INITIALIZE_WORKSPACE
-                    //     ls -la /home/jenkins/agent/workspace/weather-forecast/bootstrap_section
-                    //     cat /   home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
+                    // sh """
                     //     source generate_vars.sh
-                    //     echo $VAR1
+
+                    //     # Print the variables to verify
+                    //     echo "VAR1=\$VAR1"
+                    //     echo "VAR2=\$VAR2"
+                    //     echo "VAR3=\$VAR3"
                     // """
 
-                    // sh """
-                    //     export STAGE_NAME=${stageName}
-                    //     export BOOTSTRAP_BASE_DIR=${WORKSPACE}
+                    sh """
+                        export STAGE_NAME=${stageName}
+                        export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
-                    //     source activate one-press-functions
-                    //     python one-press-functions/app/main.py GIT_CLONE_ADO
-                    // """
+                        source activate one-press-functions
+                        python one-press-functions/app/main.py INITIALIZE_WORKSPACE
+                        ls -la /home/jenkins/agent/workspace/weather-forecast/bootstrap_section
+                        cat /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
+                    """
+
+                    sh """
+                        export STAGE_NAME=${stageName}
+                        export BOOTSTRAP_BASE_DIR=${WORKSPACE}
+
+                        source /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
+                        echo "VAR3=\$FLOW_BOOTSTRAP_SECTION_DIR"
+                        source activate one-press-functions
+                        python one-press-functions/app/main.py GIT_CLONE_ADO
+                    """
 
         //   - bash: |
         //       source activate $FUNCTIONS_VENV
@@ -73,41 +75,42 @@ pipeline {
         //       GIT_TOKEN: ${{ parameters.gitToken }}
         //       ARCHIVE_PATH: $(Build.ArtifactStagingDirectory)
         //     displayName: "Bootstrap: Clone source"
+                    echo "========== COMPLETED STAGE: ${stageName} =========="
                 }
             }
         }
 
 
-        stage('Build') {
-            steps {
-                script {
-                    def stageName = "BUILD"
+        // stage('Build') {
+        //     steps {
+        //         script {
+        //             def stageName = "BUILD"
 
-                    sh """
-                        export STAGE_NAME=${stageName}
-                        export BOOTSTRAP_BASE_DIR=${WORKSPACE}
+        //             sh """
+        //                 export STAGE_NAME=${stageName}
+        //                 export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
-                        source activate one-press-functions
-                        python one-press-functions/app/main.py INITIALIZE_WORKSPACE
-                    """
-                }
-            }
-        }
+        //                 source activate one-press-functions
+        //                 python one-press-functions/app/main.py INITIALIZE_WORKSPACE
+        //             """
+        //         }
+        //     }
+        // }
 
-        stage('Unit Test') {
-            steps {
-                script {
-                    def stageName = "UNIT_TEST"
+        // stage('Unit Test') {
+        //     steps {
+        //         script {
+        //             def stageName = "UNIT_TEST"
 
-                    sh """
-                        export STAGE_NAME=${stageName}
-                        export BOOTSTRAP_BASE_DIR=${WORKSPACE}
+        //             sh """
+        //                 export STAGE_NAME=${stageName}
+        //                 export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
-                        source activate one-press-functions
-                        python one-press-functions/app/main.py INITIALIZE_WORKSPACE
-                    """
-                }
-            }
-        }
+        //                 source activate one-press-functions
+        //                 python one-press-functions/app/main.py INITIALIZE_WORKSPACE
+        //             """
+        //         }
+        //     }
+        // }
     }
 }
