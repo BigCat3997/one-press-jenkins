@@ -23,7 +23,7 @@ pipeline {
                         env
                         git clone ${FUNCTIONS_REPO_URL} -b features/enhance-for-jenkins
                         ls -la
-                        conda create -n one-press-functions python=3.10 -y
+                        conda create -n one-press-functions python=3.10 -y > /dev/null 2>&1
                         source activate one-press-functions
                         pip install -r ./one-press-functions/requirements.txt
                     """
