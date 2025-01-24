@@ -22,9 +22,9 @@ pipeline {
                     // """
 
                     sh """
+                        env
                         git clone ${FUNCTIONS_REPO_URL}
-                        ls -la
-                        cd one-press-functions
+                        // ls -la
                         ls -la
                         conda init bash
                         conda create -n one-press-functions python=3.10 -y
@@ -32,8 +32,23 @@ pipeline {
                         echo 'PYTHONPATH: $PYTHONPATH'
                         source activate base
                         conda activate one-press-functions
-                        pip install -r requirements.txt
+                        pip install -r ./one-press-functions/requirements.txt
                     """
+// conda activate one-press-functions
+                    sh """
+                        source activate one-press-functions
+                        python one-press-functions/app/main.py INITIALIZE_WORKSPACE
+                    """
+
+        //   - bash: |
+        //       source activate $FUNCTIONS_VENV
+        //       python $EXECUTE_COMMAND
+        //     env:
+        //       FUNCTIONS_VENV: ${{ parameters.functionsVenv }}
+        //       EXECUTE_COMMAND: ${{ parameters.functionsWorkDir }}/app/main.py INITIALIZE_WORKSPACE
+        //       STAGE_NAME: BOOTSTRAP
+        //       BOOTSTRAP_BASE_DIR: "${{ parameters.workspaceWorkDir }}"
+        //     displayName: "Bootstrap: Initialize workspace"
                 }
             }
         }
