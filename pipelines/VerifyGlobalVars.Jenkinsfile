@@ -23,7 +23,7 @@ pipeline {
 
                     sh """
                         env
-                        git clone ${FUNCTIONS_REPO_URL}
+                        git clone ${FUNCTIONS_REPO_URL} -b features/enhance-structure
                         // ls -la
                         ls -la
                         conda init bash
