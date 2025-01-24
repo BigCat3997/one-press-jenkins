@@ -23,10 +23,8 @@ pipeline {
                         env
                         git clone ${FUNCTIONS_REPO_URL} -b features/enhance-for-jenkins
                         ls -la
-
                         conda create -n one-press-functions python=3.10 -y
-                        source activate base
-                        conda activate one-press-functions
+                        source activate one-press-functions
                         pip install -r ./one-press-functions/requirements.txt
                     """
 
@@ -44,7 +42,7 @@ pipeline {
                         export STAGE_NAME=${stageName}
                         export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
-                        source activate one-press-functions
+                        source activate one-press-functions  > /dev/null 2>&1
                         python one-press-functions/app/main.py INITIALIZE_WORKSPACE
                         ls -la /home/jenkins/agent/workspace/weather-forecast/bootstrap_section
                         cat /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
@@ -55,8 +53,15 @@ pipeline {
                         export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
                         source /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
-                        echo "VAR3=\$FLOW_BOOTSTRAP_SECTION_DIR"
-                        source activate one-press-functions
+                        export APP_SOURCE_PREFIX_PATH=$FLOW_BOOTSTRAP_SECTION_DIR
+                        export APP_SOURCE="app_source"
+                        export GIT_URL="https://github.com/BigCat3997/one-press-mock-projects.git"
+                        export GIT_BRANCH="main"
+                        export IS_PRIVATE_REPO="False"
+                        export GIT_USERNAME="abc"
+                        export GIT_TOKEN="abc"
+
+                        source activate one-press-functions  > /dev/null 2>&1
                         python one-press-functions/app/main.py GIT_CLONE_ADO
                     """
 
