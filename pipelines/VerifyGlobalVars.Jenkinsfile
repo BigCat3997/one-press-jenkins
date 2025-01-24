@@ -24,7 +24,6 @@ pipeline {
                     sh """
                         env
                         git clone ${FUNCTIONS_REPO_URL} -b features/enhance-structure
-                        // ls -la
                         ls -la
                         conda init bash
                         conda create -n one-press-functions python=3.10 -y
