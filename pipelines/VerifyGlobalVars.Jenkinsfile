@@ -38,25 +38,25 @@ pipeline {
                         echo "VAR3=\$VAR3"
                     """
 
-                    sh """
-                        export STAGE_NAME=${stageName}
-                        export BOOTSTRAP_BASE_DIR=${WORKSPACE}
+                    // sh """
+                    //     export STAGE_NAME=${stageName}
+                    //     export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
-                        source activate one-press-functions
-                        python one-press-functions/app/main.py INITIALIZE_WORKSPACE
-                        ls -la /home/jenkins/agent/workspace/weather-forecast/bootstrap_section
-                        cat /   home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
-                        source generate_vars.sh
-                        echo $VAR1
-                    """
+                    //     source activate one-press-functions
+                    //     python one-press-functions/app/main.py INITIALIZE_WORKSPACE
+                    //     ls -la /home/jenkins/agent/workspace/weather-forecast/bootstrap_section
+                    //     cat /   home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
+                    //     source generate_vars.sh
+                    //     echo $VAR1
+                    // """
 
-                    sh """
-                        export STAGE_NAME=${stageName}
-                        export BOOTSTRAP_BASE_DIR=${WORKSPACE}
+                    // sh """
+                    //     export STAGE_NAME=${stageName}
+                    //     export BOOTSTRAP_BASE_DIR=${WORKSPACE}
 
-                        source activate one-press-functions
-                        python one-press-functions/app/main.py GIT_CLONE_ADO
-                    """
+                    //     source activate one-press-functions
+                    //     python one-press-functions/app/main.py GIT_CLONE_ADO
+                    // """
 
         //   - bash: |
         //       source activate $FUNCTIONS_VENV
