@@ -20,9 +20,10 @@ pipeline {
                     //     echo 'export PATH=\$PATH:${CONDA_BIN_PATH}' >> environment.sh
                     //     echo 'export PYTHONPATH=\$PYTHONPATH:${FUNCTIONS_WORK_DIR}' >> environment.sh
                     // """
+                                            // source activate base
+
                     sh """
                         conda init bash
-                        // source activate base
                         conda create -n one-press-functions python=3.10 -y
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
