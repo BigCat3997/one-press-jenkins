@@ -22,12 +22,13 @@ pipeline {
                     // """
 
                     sh """
+                        git clone ${FUNCTIONS_REPO_URL}
+                        ls -la
+                        cd one-press-functions
                         conda init bash
                         conda create -n one-press-functions python=3.10 -y
                         echo 'PATH: $PATH'
                         echo 'PYTHONPATH: $PYTHONPATH'
-                        git clone ${FUNCTIONS_REPO_URL}
-                        cd one-press-functions
                         source activate base
                         conda activate one-press-functions
                         pip install -r requirements.txt
