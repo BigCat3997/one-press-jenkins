@@ -17,15 +17,21 @@ pipeline {
                 script {
                     def stageName = "BOOTSTRAP"
 
-                    sh """
-                        env
-                        git clone ${FUNCTIONS_REPO_URL} -b features/enhance-for-jenkins
-                        ls -la
+                    // sh """
+                    //     env
+                    //     git clone ${FUNCTIONS_REPO_URL} -b features/enhance-for-jenkins
+                    //     ls -la
 
-                        conda create -n one-press-functions python=3.10 -y
-                        source activate base
-                        conda activate one-press-functions
-                        pip install -r ./one-press-functions/requirements.txt
+                    //     conda create -n one-press-functions python=3.10 -y
+                    //     source activate base
+                    //     conda activate one-press-functions
+                    //     pip install -r ./one-press-functions/requirements.txt
+                    // """
+
+
+                    sh """
+                        source generate_vars.sh
+                        echo $VAR1
                     """
 
                     sh """
@@ -35,10 +41,9 @@ pipeline {
                         source activate one-press-functions
                         python one-press-functions/app/main.py INITIALIZE_WORKSPACE
                         ls -la /home/jenkins/agent/workspace/weather-forecast/bootstrap_section
-                        cat /home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
-
-                        source home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
-                        echo $FLOW_BOOTSTRAP_SECTION_DIR
+                        cat /   home/jenkins/agent/workspace/weather-forecast/bootstrap_section/env_vars.sh
+                        source generate_vars.sh
+                        echo $VAR1
                     """
 
                     sh """
