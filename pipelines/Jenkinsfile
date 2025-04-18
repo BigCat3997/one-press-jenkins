@@ -65,9 +65,15 @@ pipeline {
                         "BUILD_NUMBER=${env.BUILD_NUMBER}",
                     ]) {
                         dir('one-press-bash') {
-                            sh "chmod +x ${env.PUBLISH_PREFIX_PATH}/.env"
-                            sh "${env.PUBLISH_PREFIX_PATH}/.env"
-                            sh './src/functions/write_diary.sh'
+                            // sh "chmod +x ${env.PUBLISH_PREFIX_PATH}/.env"
+                            // sh "${env.PUBLISH_PREFIX_PATH}/.env"
+                            sh '''
+                            #!/bin/bash
+                            set -e
+                            ./src/functions/write_diary.sh'
+                            chmod +x ${env.PUBLISH_PREFIX_PATH}/.env
+                            ${env.PUBLISH_PREFIX_PATH}/.env
+                            '''
                         }
                     }
 
