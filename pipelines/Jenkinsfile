@@ -67,13 +67,13 @@ pipeline {
                         dir('one-press-bash') {
                             // sh "chmod +x ${env.PUBLISH_PREFIX_PATH}/.env"
                             // sh "${env.PUBLISH_PREFIX_PATH}/.env"
-                            sh '''
+                            sh """
                             #!/bin/bash
                             set -e
                             chmod +x ${env.PUBLISH_PREFIX_PATH}/.env
                             source ${env.PUBLISH_PREFIX_PATH}/.env
-                            ./src/functions/write_diary.sh
-                            '''
+                            sh ./src/functions/write_diary.sh
+                            """
                         }
                     }
 
