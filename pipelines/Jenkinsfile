@@ -9,6 +9,7 @@ pipeline {
         ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
         ONE_PRESS_BASH_REPO_URL = 'https://github.com/BigCat3997/one-press-bash'
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
+        GLOBAL_ENV_VAR_DIR = "${env.WORKSPACE}"
     }
 
     stages {
@@ -33,6 +34,7 @@ pipeline {
                     withEnv([
                         'STAGE_NAME=BOOTSTRAP',
                         "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
+                        // "GLOBAL_ENV_VAR_DIR=${env.GLOBAL_ENV_VAR_DIR}",
                     ]) {
                         dir('one-press-bash') {
                             // sh 'env'
@@ -47,7 +49,13 @@ pipeline {
                     ]) {
                         dir('one-press-bash') {
                             // sh 'env'
-                            sh './src/functions/git_clone.sh'
+                            sh """
+                            #!/bin/bash
+                            set -e
+                            chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
+                            source ${env.GLOBAL_ENV_VAR_DIR}/.env
+                            ./src/functions/git_clone.sh
+                            """
                         }
                     }
 
