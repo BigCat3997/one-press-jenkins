@@ -105,6 +105,7 @@ pipeline {
                             set -e
                             ls -la
                             mv app_source ${env.WORKSPACE}/build_section/build_app/app_source
+                            ./${env.WORKSPACE}/build_section/build_app/app_source/.mvnw clean package
                             """
                         }
                     }
