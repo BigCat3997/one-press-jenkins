@@ -32,7 +32,7 @@ pipeline {
                     dir('maven-simple-api') {
                         checkout([
                             $class: 'GitSCM',
-                            branches: [[name: ${params.gitBranch}]],
+                            branches: [[name: "${params.gitBranch}"]],
                             userRemoteConfigs: [[url: env.MAVEN_SIMPLE_API_REPO_URL]]
                         ])
                     }
@@ -43,6 +43,11 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Running tests..."
+                script {
+                    dir('maven-simple-api') {
+                        sh 'ls '
+                    }
+                }
             }
         }
 
