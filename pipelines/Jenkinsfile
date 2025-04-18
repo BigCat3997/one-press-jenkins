@@ -36,6 +36,11 @@ pipeline {
                             userRemoteConfigs: [[url: env.MAVEN_SIMPLE_API_REPO_URL]]
                         ])
                     }
+
+                    dir('one-press-bash') {
+                        sh './initialize_workspace.sh'
+                    }
+
                 }
             }
         }
