@@ -58,7 +58,7 @@ pipeline {
                         }
                     }
 
-                    archiveArtifacts artifacts: 'bootstrap/publish.json', fingerprint: true
+                    archiveArtifacts artifacts: "${env.WORKSPACE}/bootstrap_section/publish.json", fingerprint: true
                 }
             }
         }
