@@ -72,7 +72,7 @@ pipeline {
                             set -e
                             chmod +x ${env.PUBLISH_PREFIX_PATH}/.env
                             source ${env.PUBLISH_PREFIX_PATH}/.env
-                            sh ./src/functions/write_diary.sh
+                            ./src/functions/write_diary.sh
                             """
                         }
                     }
