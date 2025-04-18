@@ -70,9 +70,9 @@ pipeline {
                             sh '''
                             #!/bin/bash
                             set -e
-                            ./src/functions/write_diary.sh'
                             chmod +x ${env.PUBLISH_PREFIX_PATH}/.env
                             ${env.PUBLISH_PREFIX_PATH}/.env
+                            ./src/functions/write_diary.sh'
                             '''
                         }
                     }
