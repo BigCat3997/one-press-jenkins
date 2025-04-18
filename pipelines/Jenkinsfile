@@ -88,6 +88,7 @@ pipeline {
                     withEnv([
                         'STAGE_NAME=BUILD',
                         "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
+                        "BUILD_BASE_DIR=${env.WORKSPACE}",
                     ]) {
                         dir('one-press-bash') {
                             sh './src/functions/initialize_workspace.sh'
