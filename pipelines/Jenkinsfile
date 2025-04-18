@@ -34,10 +34,8 @@ pipeline {
                     withEnv([
                         'STAGE_NAME=BOOTSTRAP',
                         "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
-                        // "GLOBAL_ENV_VAR_DIR=${env.GLOBAL_ENV_VAR_DIR}",
                     ]) {
                         dir('one-press-bash') {
-                            // sh 'env'
                             sh './src/functions/initialize_workspace.sh'
                         }
                     }
@@ -69,8 +67,8 @@ pipeline {
                             sh """
                             #!/bin/bash
                             set -e
-                            chmod +x ${env.PUBLISH_PREFIX_PATH}/.env
-                            source ${env.PUBLISH_PREFIX_PATH}/.env
+                            chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
+                            source ${env.GLOBAL_ENV_VAR_DIR}/.env
                             ./src/functions/write_diary.sh
                             """
                         }
