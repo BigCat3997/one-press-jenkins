@@ -37,9 +37,17 @@ pipeline {
                         ])
                     }
 
-                    dir('one-press-bash') {
-                        sh './src/functions/initialize_workspace.sh'
+                    withEnv([
+                        'STAGE_NAME=bootstrap',
+                    ]) {
+                        echo "Running tests with BUILD_ENV=${env.BUILD_ENV} and BUILD_NUMBER=${env.BUILD_NUMBER}"
+
+                        dir('one-press-bash') {
+                            sh './src/functions/initialize_workspace.sh'
+                        }
                     }
+
+
 
                 }
             }
