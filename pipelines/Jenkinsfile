@@ -93,6 +93,15 @@ pipeline {
                             sh './src/functions/initialize_workspace.sh'
                         }
                     }
+
+                    withEnv([
+                        'STAGE_NAME=BUILD',
+                        "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
+                    ]) {
+                        dir('one-press-bash') {
+                            sh 'ls -la'
+                        }
+                    }
                 }
             }
         }
