@@ -87,7 +87,7 @@ pipeline {
                     withEnv([
                         'STAGE_NAME=BUILD',
                         "BUILD_BASE_DIR=${env.WORKSPACE}",
-                        "TARGET_BUILD_APP="
+                        "TARGET_BUILD_APP=",
                         "TARGET_BUILD_OUTPUT=target"
                     ]) {
                         dir('one-press-bash') {
