@@ -43,12 +43,11 @@ pipeline {
                     }
 
                     withEnv([
-                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}/bootstrap_section",
+                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
                         "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
                         "GIT_BRANCH=${params.gitBranch}",
                     ]) {
                         dir('one-press-bash') {
-                            // sh 'env'
                             sh """
                             #!/bin/bash
                             set -e
@@ -64,10 +63,9 @@ pipeline {
                         "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
                         "PIPELINE_NAME=${env.JOB_NAME}",
                         "BUILD_NUMBER=${env.BUILD_NUMBER}",
+                        "IS_IMAGE_TAG_BASED_ON_ENV=false"
                     ]) {
                         dir('one-press-bash') {
-                            // sh "chmod +x ${env.PUBLISH_PREFIX_PATH}/.env"
-                            // sh "${env.PUBLISH_PREFIX_PATH}/.env"
                             sh """
                             #!/bin/bash
                             set -e
@@ -88,8 +86,9 @@ pipeline {
                 script {
                     withEnv([
                         'STAGE_NAME=BUILD',
-                        "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
                         "BUILD_BASE_DIR=${env.WORKSPACE}",
+                        "TARGET_BUILD_APP="
+                        "TARGET_BUILD_OUTPUT=target"
                     ]) {
                         dir('one-press-bash') {
                             sh './src/functions/initialize_workspace.sh'
@@ -105,7 +104,7 @@ pipeline {
                             #!/bin/bash
                             set -e
                             ls -la
-                            mv app_source ${env.WORKSPACE}/build_section/build_app/app_source
+                            mv $FLOW_BOOTSTRAP_SECTION_DIR/app_source ${env.WORKSPACE}/build_section/build_app/app_source
                             ./${env.WORKSPACE}/build_section/build_app/app_source/.mvnw clean package
                             """
                         }
