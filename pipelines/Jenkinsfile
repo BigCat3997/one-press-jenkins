@@ -38,17 +38,6 @@ pipeline {
                     // }
 
                     withEnv([
-                        "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
-                        "GIT_BRANCH=${params.gitBranch}",
-                    ]) {
-                        dir('one-press-bash') {
-                            sh 'env'
-                            sh './src/functions/git_clone.sh'
-                        }
-                    }
-
-
-                    withEnv([
                         'STAGE_NAME=BOOTSTRAP',
                         "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
                     ]) {
@@ -59,12 +48,24 @@ pipeline {
                     }
 
                     withEnv([
+                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}/bootstrap_section",
+                        "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
+                        "GIT_BRANCH=${params.gitBranch}",
+                    ]) {
+                        dir('one-press-bash') {
+                            sh 'env'
+                            sh './src/functions/git_clone.sh'
+                        }
+                    }
+
+                    withEnv([
                         "PUBLISH_PREFIX_PATH=${env.WORKSPACE}/bootstrap_section",
                         "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
                         "PIPELINE_NAME=${env.JOB_NAME}",
                         "BUILD_NUMBER=${env.BUILD_NUMBER}",
                     ]) {
                         dir('one-press-bash') {
+                            sh "${env.PUBLISH_PREFIX_PATH}/.env"
                             sh './src/functions/write_diary.sh'
                         }
                     }
