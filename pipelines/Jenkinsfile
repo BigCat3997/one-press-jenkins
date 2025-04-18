@@ -1,6 +1,10 @@
 pipeline {
     agent { label 'debian-docker-agent1' }
 
+    options {
+        skipDefaultCheckout(true)
+    }
+
     parameters {
         string(name: 'gitBranch', defaultValue: 'main', description: 'Target branch.')
     }
