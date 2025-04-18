@@ -2,54 +2,30 @@ pipeline {
     agent { label 'debian-docker-agent1' }
 
     parameters {
-        string(name: 'gitBranch', defaultValue: 'main', description: 'Branch to clone')
+        string(name: 'gitBranch', defaultValue: 'main', description: 'Target branch.')
     }
 
     environment {
-        PYTHON_SCRIPT = '--version'
-        ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
         ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
+        ONE_PRESS_BASH_REPO_URL = 'https://github.com/BigCat3997/one-press-bash'
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
-        CONDA_BIN_PATH = '/opt/miniconda3/bin'
-        PATH = "${CONDA_BIN_PATH}:${env.PATH}"
-        FUNCTIONS_WORK_DIR = "${WORKSPACE}/one-press-functions"
-        PYTHONPATH = "${FUNCTIONS_WORK_DIR}:${PYTHONPATH}"
     }
 
     stages {
         stage('Bootstrap') {
-
-            environment {
-                PYTHON_SCRIPT = '--version'
-                ONE_PRESS_FUNCTIONS_REPO_URL = 'https://github.com/BigCat3997/one-press-functions'
-                ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
-                MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
-                SET_UP_STAGE_ADO_COMMAND = "${FUNCTIONS_WORK_DIR}/app/main.py SET_UP_STAGE_ADO"
-                GIT_CLONE_ADO_COMMAND = "${FUNCTIONS_WORK_DIR}/app/main.py GIT_CLONE_ADO"
-            }
-
-            options {
-                azureKeyVault(
-                    credentialID: 'spcicdstarter01', 
-                    keyVaultURL: 'https://kvcicdstarter01.vault.azure.net/', 
-                    secrets: [[envVariable: 'SECRET_GIT_TOKEN', name: 'SECRET-GIT-TOKEN', secretType: 'Secret']]
-                )
-            }
-
             steps {
                 script {
-                    // deleteDir()
-                    dir('one-press-functions') {
-                        checkout([
-                            $class: 'GitSCM',
-                            branches: [[name: '*/main']],
-                            userRemoteConfigs: [[url: env.ONE_PRESS_FUNCTIONS_REPO_URL]]
-                        ])
-                    }
                     dir('one-press-resources') {
                         checkout([
                             $class: 'GitSCM',
                             branches: [[name: '*/main']],
+                            userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
+                        ])
+                    }
+                    dir('one-press-bash') {
+                        checkout([
+                            $class: 'GitSCM',
+                            branches: [[name: '*/feature/init-phrase']],
                             userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
                         ])
                     }
@@ -61,124 +37,19 @@ pipeline {
                         ])
                     }
                 }
-
-                // sh '''#!/bin/bash
-                //     env
-                // '''
-
-                withEnv(
-                    [
-                        "BOOTSTRAP_PREFIX_PATH=${env.WORKSPACE}",
-                        "STAGE_NAME=BOOTSTRAP",
-                        "SECRET_GIT_TOKEN=${env.SECRET_GIT_TOKEN}",
-
-                    ]
-                ) {
-                    sh '''#!/bin/bash
-                        echo $SECRET_GIT_TOKEN
-                        source activate one-press-functions
-                        python $SET_UP_STAGE_ADO_COMMAND
-                        cat $WORKSPACE/bootstrap_section/env_vars.sh
-                    '''
-                }
-
-                    // sh """#!/bin/bash
-                    //     echo "NEW_ENV=ABC" > ${env.WORKSPACE}/bootstrap_section/env_vars.sh
-                    //     cat ${env.WORKSPACE}/bootstrap_section/env_vars.sh
-                    // """
-
-                script {
-                    def utils = load "${env.WORKSPACE}/pipelines/envUtils.groovy"
-                    def newEnvVars = utils.setGlobalEnvVars("${env.WORKSPACE}/bootstrap_section/env_vars.sh")
-                    def appSourcePrefixPath = newEnvVars.find { it.startsWith('APP_SOURCE_PREFIX_PATH=') }?.split('=')[1]
-                    newEnvVars.add("APP_SOURCE_PREFIX_PATH=${appSourcePrefixPath}")
-                    // newEnvVars.add("APP_SOURCE=abc")
-                    newEnvVars.add("GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}")
-                    newEnvVars.add("GIT_BRANCH=${params.gitBranch}")
-                    // newEnvVars.add("IS_PRIVATE_REPO=${params.gitBranch}")
-                    newEnvVars.add("GIT_USERNAME=${env.SECRET_GIT_USERNAME}")
-                    newEnvVars.add("GIT_TOKEN=${env.SECRET_GIT_TOKEN}")
-                    // newEnvVars.add("ARCHIVE_PATH=abc")
-                    withEnv(newEnvVars) {
-                        sh '''#!/bin/bash
-                            env
-                            echo $APP_SOURCE_PREFIX_PATH
-                            echo $GIT_BRANCH
-                            source activate one-press-functions
-                            python $GIT_CLONE_ADO_COMMAND
-                        '''
-                    }
-                }
-
-
-            // - bash: |
-            //   source activate $FUNCTIONS_VENV
-            //   python $EXECUTE_COMMAND
-            // env:
-            //   FUNCTIONS_VENV: ${{ parameters.functionsVenv }}
-            //   EXECUTE_COMMAND: ${{ parameters.functionsWorkDir }}/app/main.py GIT_CLONE_ADO
-            //   APP_SOURCE_PREFIX_PATH: $(FLOW_BOOTSTRAP_SECTION_PATH)
-            //   APP_SOURCE: ${{ parameters.appFolder }}
-            //   GIT_URL: ${{ parameters.gitUrl }}
-            //   GIT_BRANCH: ${{ parameters.gitBranch }}
-            //   IS_PRIVATE_REPO: ${{ parameters.isPrivateRepo }}
-            //   GIT_USERNAME: ${{ parameters.gitUsername }}
-            //   GIT_TOKEN: ${{ parameters.gitToken }}
-            //   ARCHIVE_PATH: $(Build.ArtifactStagingDirectory)
-            // displayName: "Bootstrap: Clone source"
-
-
-                // withEnv() {
-                //         sh '''#!/bin/bash
-                //             ls -lash .
-                //             env
-                //         '''
-                // }
-
-                // sh """#!/bin/bash
-                //     ls -lash .
-                //     env
-                //     echo ${env.bootstrap_section_path}
-                // """
             }
         }
 
         stage('Build') {
             steps {
-                sh '''#!/bin/bash
-                        source activate one-press-functions
-                        python $SET_UP_STAGE_ADO_COMMAND
-                    '''
+                echo "Running tests..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying the application..."
             }
         }
     }
-
-    post {
-        always {
-            echo 'Pipeline finished.'
-            cleanWs()
-            // cleanWs(
-            //         cleanWhenAborted(true),
-            //         cleanWhenFailure(true),
-            //         cleanWhenNotBuilt(false),
-            //         cleanWhenSuccess(true),
-            //         cleanWhenUnstable(true),
-            //         deleteDirs: true,
-            //         disableDeferredWipeout: true,
-            //         notFailBuild: true)
-        }
-    }
 }
-
-
-// def setGlobalEnvVars(filePath) {
-//     def envVars = readFile(filePath).split('\n')
-//     def newEnvVars = []
-//     envVars.each { envVar ->
-//         if (envVar) {
-//             def (key, value) = envVar.split('=')
-//             newEnvVars.add("${key}=${value.replaceAll('"', '')}")
-//         }
-//     }
-//     return newEnvVars
-// }
