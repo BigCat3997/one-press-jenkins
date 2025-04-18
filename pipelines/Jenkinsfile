@@ -71,8 +71,8 @@ pipeline {
                             #!/bin/bash
                             set -e
                             chmod +x ${env.PUBLISH_PREFIX_PATH}/.env
-                            ${env.PUBLISH_PREFIX_PATH}/.env
-                            ./src/functions/write_diary.sh'
+                            source ${env.PUBLISH_PREFIX_PATH}/.env
+                            ./src/functions/write_diary.sh
                             '''
                         }
                     }
