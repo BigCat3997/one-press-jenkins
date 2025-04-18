@@ -38,7 +38,7 @@ pipeline {
                     }
 
                     dir('one-press-bash') {
-                        sh './initialize_workspace.sh'
+                        sh './src/functions/initialize_workspace.sh'
                     }
 
                 }
