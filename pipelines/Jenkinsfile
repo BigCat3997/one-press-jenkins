@@ -18,21 +18,21 @@ pipeline {
                     dir('one-press-resources') {
                         checkout([
                             $class: 'GitSCM',
-                            branches: [[name: 'refs/heads/main']],
+                            branches: [[name: 'main']],
                             userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
                         ])
                     }
                     dir('one-press-bash') {
                         checkout([
                             $class: 'GitSCM',
-                            branches: [[name: 'refs/heads/feature/init-phrase']],
+                            branches: [[name: 'feature/init-phrase']],
                             userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
                         ])
                     }
                     dir('maven-simple-api') {
                         checkout([
                             $class: 'GitSCM',
-                            branches: [[name: 'refs/heads/main']],
+                            branches: [[name: ${params.gitBranch}]],
                             userRemoteConfigs: [[url: env.MAVEN_SIMPLE_API_REPO_URL]]
                         ])
                     }
