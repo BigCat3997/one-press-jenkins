@@ -1,10 +1,6 @@
 pipeline {
     agent { label 'debian-docker-agent1' }
 
-    options {
-        skipDefaultCheckout(true)
-    }
-
     parameters {
         string(name: 'gitBranch', defaultValue: 'main', description: 'Target branch.')
     }
@@ -115,6 +111,15 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            cleanWs(cleanWhenNotBuilt: true,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: false)
         }
     }
 }
