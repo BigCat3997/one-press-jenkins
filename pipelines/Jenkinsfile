@@ -29,20 +29,13 @@ pipeline {
                             userRemoteConfigs: [[url: env.ONE_PRESS_BASH_REPO_URL]]
                         ])
                     }
-                    // dir('maven-simple-api') {
-                    //     checkout([
-                    //         $class: 'GitSCM',
-                    //         branches: [[name: "${params.gitBranch}"]],
-                    //         userRemoteConfigs: [[url: env.MAVEN_SIMPLE_API_REPO_URL]]
-                    //     ])
-                    // }
 
                     withEnv([
                         'STAGE_NAME=BOOTSTRAP',
                         "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
                     ]) {
                         dir('one-press-bash') {
-                            sh 'env'
+                            // sh 'env'
                             sh './src/functions/initialize_workspace.sh'
                         }
                     }
@@ -53,7 +46,7 @@ pipeline {
                         "GIT_BRANCH=${params.gitBranch}",
                     ]) {
                         dir('one-press-bash') {
-                            sh 'env'
+                            // sh 'env'
                             sh './src/functions/git_clone.sh'
                         }
                     }
