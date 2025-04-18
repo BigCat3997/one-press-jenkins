@@ -99,7 +99,12 @@ pipeline {
                         "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
                     ]) {
                         dir('bootstrap_section') {
-                            sh "mv app_source ${env.WORKSPACE}/build_section/build_app/app_source"
+                            sh """
+                            #!/bin/bash
+                            set -e
+                            ls -la
+                            mv app_source ${env.WORKSPACE}/build_section/build_app/app_source
+                            """
                         }
                     }
                 }
