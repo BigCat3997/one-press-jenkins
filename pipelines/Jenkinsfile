@@ -26,7 +26,7 @@ pipeline {
                         checkout([
                             $class: 'GitSCM',
                             branches: [[name: 'feature/init-phrase']],
-                            userRemoteConfigs: [[url: env.ONE_PRESS_RESOURCES_REPO_URL]]
+                            userRemoteConfigs: [[url: env.ONE_PRESS_BASH_REPO_URL]]
                         ])
                     }
                     dir('maven-simple-api') {
