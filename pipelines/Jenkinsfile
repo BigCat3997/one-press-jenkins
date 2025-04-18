@@ -98,8 +98,8 @@ pipeline {
                         'STAGE_NAME=BUILD',
                         "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
                     ]) {
-                        dir('one-press-bash') {
-                            sh 'ls -la'
+                        dir('bootstrap_section') {
+                            sh "mv app_source ${env.WORKSPACE}/build_section/build_app/app_source"
                         }
                     }
                 }
