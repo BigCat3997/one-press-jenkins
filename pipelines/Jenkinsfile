@@ -87,6 +87,18 @@ pipeline {
 
                     withEnv([
                         "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
+                    ]) {
+                        dir('one-press-bash') {
+                            sh """#!/bin/bash
+                            ./src/functions/global_env_var_manager.sh
+                            activate_env_vars
+                            cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
+                            """
+                        }
+                    }
+
+                    withEnv([
+                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
                         "TARGET_SUB_DIR=",
                         "TARGET_BUILD_APP=",
                         "TARGET_BUILD_OUTPUT=target/*.jar",
