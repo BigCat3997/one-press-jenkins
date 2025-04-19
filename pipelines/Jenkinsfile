@@ -13,6 +13,8 @@ pipeline {
         GLOBAL_ENV_VAR_DIR = "${env.WORKSPACE}"
     }
 
+
+
     stages {
         stage('Bootstrap') {
             steps {
@@ -54,12 +56,21 @@ pipeline {
                         }
                     }
 
+                    withAzureKeyvault(
+                        keyVaultSecrets: [
+                            [secretType: 'Secret', name: 'SECRET-DOCKER-SERVER-URI', envVariable: 'DOCKER_SERVER_URI'],
+                            [secretType: 'Secret', name: 'SECRET-DOCKER-SERVER-USERNAME', envVariable: 'DOCKER_SERVER_USERNAME'],
+                            [secretType: 'Secret', name: 'SECRET-DOCKER-SERVER-PASSWORD', envVariable: 'DOCKER_SERVER_PASSWORD']
+                        ],
+                        keyVaultURL: "${AZURE_KEYVAULT_URL}"
+                    ) {
                     withEnv([
                         "PUBLISH_PREFIX_PATH=${env.WORKSPACE}/bootstrap_section",
                         "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
                         "PIPELINE_NAME=${env.JOB_NAME}",
                         "BUILD_NUMBER=${env.BUILD_NUMBER}",
-                        "IS_IMAGE_TAG_BASED_ON_ENV=false"
+                        "IS_IMAGE_TAG_BASED_ON_ENV=false",
+                        "DOCKER_IMAGE_NAME=maven-simple-api",
                     ]) {
                         dir('one-press-bash') {
                             sh """#!/bin/bash
@@ -67,6 +78,7 @@ pipeline {
                             """
                         }
                     }
+                }
 
                     archiveArtifacts artifacts: "bootstrap_section/publish.json", fingerprint: true
                 }
