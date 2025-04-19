@@ -114,11 +114,8 @@ pipeline {
                     }
 
                     withEnv([
-                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
-                        "TARGET_SUB_DIR=",
-                        "TARGET_BUILD_APP=",
-                        "TARGET_BUILD_OUTPUT=target/*.jar",
-                        "TARGET_PLATFORM=MAVEN"
+                        "DOCKER_RESOURCE_WORK_DIR=${env.WORKSPACE}/one-press-resource/resources/docker/dockerfiles",
+                        "DOCKER_TARGET_DOCKERFILE=java/java17/.",
                     ]) {
                         dir('one-press-bash') {
                             sh """
