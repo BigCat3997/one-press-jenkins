@@ -11,9 +11,9 @@ pipeline {
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
         SCRIPTS_WORK_DIR = "${env.WORKSPACE}/one-press-bash"
         GLOBAL_ENV_VAR_DIR = "${env.WORKSPACE}"
-        DOCKER_SERVER_URI = credentials('DOCKER-SERVER-URI')
-        DOCKER_SERVER_USERNAME = credentials('DOCKER-SERVER-USERNAME')
-        DOCKER_SERVER_PASSWORD = credentials('DOCKER-SERVER-PASSWORD')
+        DOCKER_SERVER_URI = credentials('SECRET-DOCKER-SERVER-URI')
+        DOCKER_SERVER_USERNAME = credentials('SECRET-DOCKER-SERVER-USERNAME')
+        DOCKER_SERVER_PASSWORD = credentials('SECRET-DOCKER-SERVER-PASSWORD')
     }
 
     stages {
