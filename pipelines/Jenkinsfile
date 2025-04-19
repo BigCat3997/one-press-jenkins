@@ -11,9 +11,10 @@ pipeline {
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
         SCRIPTS_WORK_DIR = "${env.WORKSPACE}/one-press-bash"
         GLOBAL_ENV_VAR_DIR = "${env.WORKSPACE}"
+        DOCKER_SERVER_URI = credential('DOCKER-SERVER-URI')
+        DOCKER_SERVER_USERNAME = credential('DOCKER-SERVER-USERNAME')
+        DOCKER_SERVER_PASSWORD = credential('DOCKER-SERVER-PASSWORD')
     }
-
-
 
     stages {
         stage('Bootstrap') {
@@ -55,17 +56,8 @@ pipeline {
                             """
                         }
                     }
-
-                    withCredentials([string(credentialsId: 'AZURE_KEYVAULT_URL', variable: 'AZURE_KEYVAULT_URL')]) {
-                        withAzureKeyvault(
-                            keyVaultSecrets: [
-                            [secretType: 'Secret', name: 'SECRET-DOCKER-SERVER-URI', envVariable: 'DOCKER_SERVER_URI'],
-                            [secretType: 'Secret', name: 'SECRET-DOCKER-SERVER-USERNAME', envVariable: 'DOCKER_SERVER_USERNAME'],
-                            [secretType: 'Secret', name: 'SECRET-DOCKER-SERVER-PASSWORD', envVariable: 'DOCKER_SERVER_PASSWORD']
-                            ],
-                            keyVaultURL: $AZURE_KEYVAULT_URL
-                        ) {
-                            withEnv([
+                    
+                    withEnv([
                                 "PUBLISH_PREFIX_PATH=${env.WORKSPACE}/bootstrap_section",
                                 "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
                                 "PIPELINE_NAME=${env.JOB_NAME}",
@@ -79,8 +71,6 @@ pipeline {
                                     """
                                 }
                             }
-                        }
-                    }
 
                     archiveArtifacts artifacts: "bootstrap_section/publish.json", fingerprint: true
                 }
