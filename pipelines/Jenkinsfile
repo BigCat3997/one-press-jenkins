@@ -108,8 +108,7 @@ pipeline {
                             chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
                             source ${env.GLOBAL_ENV_VAR_DIR}/.env
                             cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
-                            chmod +x compile_platform.sh
-                            ./compile_platform.sh
+                            ./src/functions/compile_platform.sh
                             """
                         }
                     }
