@@ -97,14 +97,14 @@ pipeline {
                         "APP_SOURCE_BASE_DIR=${env.WORKSPACE}"
                     ]) {
                         dir('one-press-bash') {
-                            sh """
+                            sh '''
                             #!/bin/bash
                             set -e
                             ls -la
                             chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
                             source ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            echo \$FLOW_BUILD_APP_DIR
-                            """
+                            echo $FLOW_BUILD_APP_DIR
+                            '''
                         }
                     }
 
