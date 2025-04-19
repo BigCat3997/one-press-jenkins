@@ -47,8 +47,7 @@ pipeline {
                         "GIT_BRANCH=${params.gitBranch}",
                     ]) {
                         dir('one-press-bash') {
-                            sh """
-                            #!/bin/bash
+                            sh """#!/bin/bash
                             ./src/functions/git_clone.sh
                             tree ${env.WORKSPACE}
                             """
@@ -63,11 +62,7 @@ pipeline {
                         "IS_IMAGE_TAG_BASED_ON_ENV=false"
                     ]) {
                         dir('one-press-bash') {
-                            sh """
-                            #!/bin/bash
-                            set -e
-                            chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            source ${env.GLOBAL_ENV_VAR_DIR}/.env
+                            sh """#!/bin/bash
                             ./src/functions/write_diary.sh
                             """
                         }
