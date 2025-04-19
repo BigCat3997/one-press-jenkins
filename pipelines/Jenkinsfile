@@ -114,7 +114,7 @@ pipeline {
                     }
 
                     withEnv([
-                        "DOCKER_RESOURCE_WORK_DIR=${env.WORKSPACE}/one-press-resource/resources/docker/dockerfiles",
+                        "DOCKER_RESOURCE_WORK_DIR=${env.WORKSPACE}/one-press-resources/resources/docker/dockerfiles",
                         "DOCKER_TARGET_DOCKERFILE=java/java17/.",
                     ]) {
                         dir('one-press-bash') {
