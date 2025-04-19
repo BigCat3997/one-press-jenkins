@@ -86,7 +86,7 @@ pipeline {
                         'STAGE_NAME=BUILD',
                         "BUILD_BASE_DIR=${env.WORKSPACE}",
                         "TARGET_BUILD_APP=",
-                        "TARGET_BUILD_OUTPUT=target"
+                        "TARGET_BUILD_OUTPUT=target/*.jar"
                     ]) {
                         dir('one-press-bash') {
                             sh './src/functions/initialize_workspace.sh'
@@ -94,19 +94,19 @@ pipeline {
                     }
 
                     withEnv([
-                        'STAGE_NAME=BUILD',
-                        "BOOTSTRAP_BASE_DIR=${env.WORKSPACE}",
+                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
                     ]) {
-                        dir('bootstrap_section') {
+                        dir('one-press-bash') {
                             sh """
                             #!/bin/bash
                             set -e
-                            ls -la
-                            mv $FLOW_BOOTSTRAP_SECTION_DIR/app_source ${env.WORKSPACE}/build_section/build_app/app_source
-                            ./${env.WORKSPACE}/build_section/build_app/app_source/.mvnw clean package
+                            chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
+                            source ${env.GLOBAL_ENV_VAR_DIR}/.env
+                            cp ${env.APP_SOURCE_BASE_DIR}/app_source $FLOW_BUILD_APP_DIR
                             """
                         }
                     }
+
                 }
             }
         }
