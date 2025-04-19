@@ -9,6 +9,7 @@ pipeline {
         ONE_PRESS_RESOURCES_REPO_URL = 'https://github.com/BigCat3997/one-press-resources'
         ONE_PRESS_BASH_REPO_URL = 'https://github.com/BigCat3997/one-press-bash'
         MAVEN_SIMPLE_API_REPO_URL = 'https://github.com/BigCat3997/maven-simple-api'
+        SCRIPTS_WORK_DIR = "${env.WORKSPACE}/one-press-bash"
         GLOBAL_ENV_VAR_DIR = "${env.WORKSPACE}"
     }
 
