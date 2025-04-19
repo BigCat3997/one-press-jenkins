@@ -97,7 +97,8 @@ pipeline {
                         "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
                         "TARGET_SUB_DIR=",
                         "TARGET_BUILD_APP=",
-                        "TARGET_BUILD_OUTPUT=target/*.jar"
+                        "TARGET_BUILD_OUTPUT=target/*.jar",
+                        "TARGET_PLATFORM=MAVEN"
                     ]) {
                         dir('one-press-bash') {
                             sh """
@@ -107,6 +108,8 @@ pipeline {
                             chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
                             source ${env.GLOBAL_ENV_VAR_DIR}/.env
                             cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
+                            chmod +x compile_platform.sh
+                            ./compile_platform.sh
                             """
                         }
                     }
