@@ -49,9 +49,6 @@ pipeline {
                         dir('one-press-bash') {
                             sh """
                             #!/bin/bash
-                            set -e
-                            chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            source ${env.GLOBAL_ENV_VAR_DIR}/.env
                             ./src/functions/git_clone.sh
                             """
                         }
