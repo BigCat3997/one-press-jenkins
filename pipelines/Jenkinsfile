@@ -56,7 +56,7 @@ pipeline {
                             """
                         }
                     }
-                    
+
                     withEnv([
                                 "PUBLISH_PREFIX_PATH=${env.WORKSPACE}/bootstrap_section",
                                 "GIT_URL=${env.MAVEN_SIMPLE_API_REPO_URL}",
