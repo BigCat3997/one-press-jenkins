@@ -97,24 +97,24 @@ pipeline {
                         }
                     }
 
-                    withEnv([
-                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
-                        "TARGET_SUB_DIR=",
-                        "TARGET_BUILD_APP=",
-                        "TARGET_BUILD_OUTPUT=target/*.jar",
-                        "TARGET_PLATFORM=MAVEN"
-                    ]) {
-                        dir('one-press-bash') {
-                            sh """
-                            #!/bin/bash
-                            set -e
-                            ls -la
-                            cat ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
-                            ./src/functions/compile_platform.sh
-                            """
-                        }
-                    }
+                    // withEnv([
+                    //     "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
+                    //     "TARGET_SUB_DIR=",
+                    //     "TARGET_BUILD_APP=",
+                    //     "TARGET_BUILD_OUTPUT=target/*.jar",
+                    //     "TARGET_PLATFORM=MAVEN"
+                    // ]) {
+                    //     dir('one-press-bash') {
+                    //         sh """
+                    //         #!/bin/bash
+                    //         set -e
+                    //         ls -la
+                    //         cat ${env.GLOBAL_ENV_VAR_DIR}/.env
+                    //         cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
+                    //         ./src/functions/compile_platform.sh
+                    //         """
+                    //     }
+                    // }
 
                     withEnv([
                         "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
@@ -126,37 +126,31 @@ pipeline {
                         dir('one-press-bash') {
                             sh """
                             #!/bin/bash
-                            set -e
-                            ls -la
-                            chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            source ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
-
                             ./src/functions/compile_platform.sh
                             """
                         }
                     }
 
-                    withEnv([
-                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
-                        "TARGET_SUB_DIR=",
-                        "TARGET_BUILD_APP=",
-                        "TARGET_BUILD_OUTPUT=target/*.jar",
-                        "TARGET_PLATFORM=MAVEN"
-                    ]) {
-                        dir('one-press-bash') {
-                            sh """
-                            #!/bin/bash
-                            set -e
-                            ls -la
-                            chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            source ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
+                    // withEnv([
+                    //     "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
+                    //     "TARGET_SUB_DIR=",
+                    //     "TARGET_BUILD_APP=",
+                    //     "TARGET_BUILD_OUTPUT=target/*.jar",
+                    //     "TARGET_PLATFORM=MAVEN"
+                    // ]) {
+                    //     dir('one-press-bash') {
+                    //         sh """
+                    //         #!/bin/bash
+                    //         set -e
+                    //         ls -la
+                    //         chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
+                    //         source ${env.GLOBAL_ENV_VAR_DIR}/.env
+                    //         cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
 
-                            ./src/functions/compile_platform.sh
-                            """
-                        }
-                    }
+                    //         ./src/functions/compile_platform.sh
+                    //         """
+                    //     }
+                    // }
                 }
             }
         }
