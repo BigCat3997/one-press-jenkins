@@ -120,6 +120,7 @@ pipeline {
                         dir('one-press-bash') {
                             sh """
                             #!/bin/bash
+                            ls -la /home/jenkins/workspace/maven-simple-api-docker/build_section/build_app/app_source/target
                             cat ${env.WORKSPACE}/.env
                             ./src/functions/docker_build.sh
                             """
