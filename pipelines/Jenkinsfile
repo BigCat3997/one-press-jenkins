@@ -109,7 +109,6 @@ pipeline {
                             source ${env.GLOBAL_ENV_VAR_DIR}/.env
                             cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
 
-                            export APP_SOURCE_DIR=\${FLOW_BUILD_APP_DIR}/app_source
                             ./src/functions/compile_platform.sh
                             """
                         }
