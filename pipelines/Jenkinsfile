@@ -50,6 +50,7 @@ pipeline {
                             sh """
                             #!/bin/bash
                             ./src/functions/git_clone.sh
+                            tree ${env.WORKSPACE}
                             """
                         }
                     }
