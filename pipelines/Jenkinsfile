@@ -103,7 +103,7 @@ pipeline {
                             ls -la
                             chmod +x ${env.GLOBAL_ENV_VAR_DIR}/.env
                             source ${env.GLOBAL_ENV_VAR_DIR}/.env
-                            echo ${FLOW_BUILD_APP_DIR}
+                            echo \$FLOW_BUILD_APP_DIR
                             """
                         }
                     }
