@@ -124,7 +124,7 @@ pipeline {
                             sh """
                             #!/bin/bash
                             cat ${env.WORKSPACE}/.env
-                            ./src/functions/docker-build.sh
+                            ./src/functions/docker_build.sh
                             """
                         }
                     }
