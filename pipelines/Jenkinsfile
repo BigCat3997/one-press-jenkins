@@ -94,7 +94,7 @@ pipeline {
                     }
 
                     withEnv([
-                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}"
+                        "APP_SOURCE_BASE_DIR=${env.WORKSPACE}",
                         "TARGET_SUB_DIR=",
                         "TARGET_BUILD_APP=",
                         "TARGET_BUILD_OUTPUT=target/*.jar"
