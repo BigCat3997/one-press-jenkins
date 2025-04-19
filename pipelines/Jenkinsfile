@@ -90,7 +90,7 @@ pipeline {
                     ]) {
                         dir('one-press-bash') {
                             sh """#!/bin/bash
-                            ./src/functions/global_env_var_manager.sh
+                            source ./src/functions/global_env_var_manager.sh
                             activate_env_vars
                             cp -r ${env.APP_SOURCE_BASE_DIR}/app_source \${FLOW_BUILD_APP_DIR}
                             """
