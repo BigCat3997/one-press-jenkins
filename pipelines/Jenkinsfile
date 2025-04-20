@@ -118,6 +118,7 @@ pipeline {
                     }
 
                     withEnv([
+                        "DOCKER_IS_PRIVATE_REGISTRY=true",
                         "DOCKER_RESOURCE_WORK_DIR=${env.WORKSPACE}/one-press-resources/resources/docker/dockerfiles",
                         "DOCKER_TARGET_DOCKERFILE=java/java17/.",
                     ]) {
